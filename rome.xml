@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flipcards title="Roman History">
+  <flipcard question="When did Roman Republic fall?" answered="2018 04 07 11:23" level="2">
+    <answer>In 27 BC.</answer>
+    <keywords>27,BC</keywords>
+  </flipcard>
+  <flipcard question="Who was the first Roman emperor?" answered="2018 04 03 21:11 BST">
+    <answer>Augustus (Imperator Caesar Divi Filius Augustus) was the founder of the Roman Principate and considered the first Roman emperor. He took control by defeating Antony and Cleopatra.</answer>
+    <keywords>Augustus</keywords>
+  </flipcard>
+  <flipcard question="When was Julius Caesar assasinated?">
+    <answer>On 'Ides of March', 15 March 44 BC.</answer>
+    <keywords>44,BC</keywords>
+  </flipcard>
+  <flipcard question="According to tradition, when was Rome founded?" answered="never">
+    <answer>According to tradition, Rome was founded in 753 BC.</answer>
+    <keywords>753,BC</keywords>
+  </flipcard>
+  <flipcard question="Who founded Rome?">
+    <answer>Traditionally, Romulus and Remus are said to have founded Rome.</answer>
+    <keywords>Romulus,Remus</keywords>
+  </flipcard>
+  <flipcard question="Which emperor completed the Colosseum in Rome?" answered="never">
+    <answer>Titus completed the Colosseum in Rome and held games which lasted 100 days.</answer>
+    <keywords>Titus</keywords>
+  </flipcard>
+  <flipcard question="What language was spoken throughout the Roman Empire?">
+    <answer>Latin was spoken throughout the Roman Empire.</answer>
+    <keywords>Latin</keywords>
+  </flipcard>
+  <flipcard question="Who invaded the Roman Empire in it's later years?">
+    <answer>In later years, the Visigoths invaded the Roman Empire. The Gauls were part of the Empire.</answer>
+    <keywords>Visigoths</keywords>
+  </flipcard>
+  <flipcard question="How did traders move goods round the Empire?">
+    <answer>Traders moved most goods by ship. Archaeologists have found many shipwrecks dating from the time of the Roman Empire.</answer>
+    <keywords>ship</keywords>
+  </flipcard>
+  <flipcard question="What did Britain export to the rest of the Roman Empire?" answered="2018 04 07 11:23" level="1">
+    <answer>Britain was rich in reserves of metals and exported lead, silver, tin and iron to the rest of the Empire. Britain also exported wheat, cloth and slaves.</answer>
+    <keywords>metals</keywords>
+  </flipcard>
+  <flipcard question="Under which emperor did Christianity become the main religion of the Roman Empire?" answered="never">
+    <answer>Constantine converted to Christianity in 312, and Christianity became the main religion of the Empire.</answer>
+    <keywords>Constantine</keywords>
+  </flipcard>
+  <flipcard question="Which emperor split the Empire into to two parts?" answered="2018 04 07 10:00">
+    <answer>Diocletian split the Empire into two parts. The Eastern Roman Empire was based on Byzantium, which was renamed Constantinople (after Constantine) in 330.</answer>
+    <keywords>Diocletian</keywords>
+  </flipcard>
+</flipcards>

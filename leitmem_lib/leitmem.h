@@ -1,6 +1,8 @@
 #ifndef LEITMEM_H
 #define LEITMEM_H
 
+#include "i_flipcard_store.h"
+
 #include "tools/datashelf.h"
 #include "lang/binary_options.h"
 
@@ -11,6 +13,7 @@ class leitmem
    
 private:
    
+   i_flipcards_store& m_flipcard_store;
    mzlib::ds::pnode m_flipcards;
    std::string m_knowledge_file;
    
@@ -18,17 +21,18 @@ private:
    std::vector<mzlib::ds::pnode> m_ask_today_after;
    
    mzlib::ds::pnode get_flipcard(std::string_view question);
-   
 
    void remove_from_todays_session(mzlib::ds::pnode flipcard);
    void correctly_answered(mzlib::ds::pnode flipcard);
    void incorrectly_answered(mzlib::ds::pnode flipcard);
    std::vector<mzlib::ds::pnode> filter_which_to_ask_today(mzlib::ds::pnode all_flipcards);
    
+   void load_knowledge();
+   void save_knowledge();
+   
 public:
    
-   void load_knowledge_file(std::string_view knowledge_file);
-   void save_knowledge_file();
+   leitmem(i_flipcards_store&);
    
    std::string_view get_next_question();
    std::string_view get_answer(std::string_view question);

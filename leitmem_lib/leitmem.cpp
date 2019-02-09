@@ -2,13 +2,17 @@
 #include "utils.h"
 #include "constants.h"
 
-#include "extension/libxmlpp_datashelf.h"
 #include "iterators/get_random.h"
 
 #include <sstream>
 
 using namespace std;
 using namespace mzlib;
+
+
+
+
+
 
 ds::pnode leitmem::get_flipcard(string_view question)
 {
@@ -69,18 +73,22 @@ std::vector<mzlib::ds::pnode> leitmem::filter_which_to_ask_today(mzlib::ds::pnod
    return to_ask_today;
 }
 
-void leitmem::load_knowledge_file(string_view knowledge_file)
+void leitmem::load_knowledge()
 {  
-   m_knowledge_file = knowledge_file;
-   m_flipcards = create_data_shelf_from_xml_file(m_knowledge_file);
-   
+   m_flipcards = m_flipcard_store.load();
    m_ask_today = filter_which_to_ask_today(m_flipcards);
 }
 
-void leitmem::save_knowledge_file()
+void leitmem::save_knowledge()
 {
-   save_datashelf_to_xml_file(m_flipcards, m_knowledge_file);
+   m_flipcard_store.save(m_flipcards);
 }
+
+leitmem::leitmem(
+   i_flipcards_store& flipcard_store) :
+      m_flipcard_store(flipcard_store),
+      m_flipcards(m_flipcard_store.load())
+{}
 
 string_view leitmem::get_next_question()
 {
@@ -114,5 +122,5 @@ bool leitmem::submit_answer(string_view question, string_view answer)
 
 void leitmem::quit() 
 {
-   save_knowledge_file();
+   save_knowledge();
 };

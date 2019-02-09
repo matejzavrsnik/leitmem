@@ -8,6 +8,10 @@
 
 #include <string_view>
 
+std::vector<mzlib::ds::pnode> 
+filter_which_to_ask_today(mzlib::ds::pnode all_flipcards);
+
+
 class leitmem
 {
    
@@ -25,7 +29,6 @@ private:
    void remove_from_todays_session(mzlib::ds::pnode flipcard);
    void correctly_answered(mzlib::ds::pnode flipcard);
    void incorrectly_answered(mzlib::ds::pnode flipcard);
-   std::vector<mzlib::ds::pnode> filter_which_to_ask_today(mzlib::ds::pnode all_flipcards);
    
    void load_knowledge();
    void save_knowledge();

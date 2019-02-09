@@ -46,9 +46,14 @@ void leitmem::incorrectly_answered(ds::pnode flipcard)
    ds::add_or_edit_attribute(flipcard, tag_level, levels[0]);
 }
 
-std::vector<mzlib::ds::pnode> leitmem::filter_which_to_ask_today(mzlib::ds::pnode flipcards_document)
+std::vector<mzlib::ds::pnode> 
+filter_which_to_ask_today(
+mzlib::ds::pnode flipcards_document)
 {
    std::vector<mzlib::ds::pnode> to_ask_today;
+   
+   if(!flipcards_document) return to_ask_today;
+   
    std::vector<mzlib::ds::pnode> all_flipcards = ds::filter_by_name(
       flipcards_document->nodes(), tag_flipcard);
    
@@ -87,7 +92,8 @@ void leitmem::save_knowledge()
 leitmem::leitmem(
    i_flipcards_store& flipcard_store) :
       m_flipcard_store(flipcard_store),
-      m_flipcards(m_flipcard_store.load())
+      m_flipcards(m_flipcard_store.load()),
+      m_ask_today(filter_which_to_ask_today(m_flipcards))
 {}
 
 string_view leitmem::get_next_question()
@@ -96,7 +102,7 @@ string_view leitmem::get_next_question()
       m_ask_today.swap(m_ask_today_after);
       
    if (m_ask_today.empty())
-      return "No more questions. TODO"; // todo
+      return "No more questions."; // todo
    
    auto flipcard = *get_random_element(m_ask_today.begin(), m_ask_today.end());
 
@@ -123,4 +129,4 @@ bool leitmem::submit_answer(string_view question, string_view answer)
 void leitmem::quit() 
 {
    save_knowledge();
-};
+}

@@ -10,10 +10,6 @@ using namespace std;
 using namespace mzlib;
 
 
-
-
-
-
 ds::pnode leitmem::get_flipcard(string_view question)
 {
    auto flipcard = ds::first_with_attribute(

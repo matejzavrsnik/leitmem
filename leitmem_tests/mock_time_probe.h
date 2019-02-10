@@ -1,9 +1,9 @@
 #ifndef MOCK_TIME_PROBE_H
 #define MOCK_TIME_PROBE_H
 
-#include "time_probe_interface.h"
+#include "tools/time_probe.h"
 
-class mock_time_probe : public time_probe_interface
+class mock_time_probe : public mzlib::time_probe_interface
 {
    
 public:

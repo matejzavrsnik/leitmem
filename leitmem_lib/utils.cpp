@@ -1,9 +1,9 @@
 #include "utils.h"
 #include "constants.h"
-#include "time_probe.h"
 
 #include "string/case.h"
 #include "tools/wagner_fischer_distance.h"
+#include "tools/time_probe.h"
 #include "string/all_words_appear.h"
 #include "nature/units.h"
 #include "iterators/is_last.h"

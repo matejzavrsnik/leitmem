@@ -175,5 +175,5 @@ TEST_F(fixture_leitmem, answering_question_correctly_will_not_ask_again_immediat
    
    std::string_view question = engine.get_next_question();
    
-   ASSERT_EQ(question, "No more questions.");
+   ASSERT_NE(question, "What are synthetic humans called?");
 }

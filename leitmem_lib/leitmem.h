@@ -2,10 +2,10 @@
 #define LEITMEM_H
 
 #include "flipcard_store_interface.h"
-#include "time_probe_interface.h"
 
 #include "tools/datashelf.h"
 #include "lang/binary_options.h"
+#include "tools/time_probe.h"
 
 #include <string_view>
 
@@ -14,7 +14,7 @@ class leitmem
    
 private:
    
-   time_probe_interface& m_time_probe;
+   mzlib::time_probe_interface& m_time_probe;
    flipcards_store_interface& m_flipcard_store;
    mzlib::ds::pnode m_flipcards;
    std::string m_knowledge_file;
@@ -33,7 +33,7 @@ private:
 public:
    
    leitmem(
-      time_probe_interface&,
+      mzlib::time_probe_interface&,
       flipcards_store_interface&);
    
    std::string_view get_next_question();

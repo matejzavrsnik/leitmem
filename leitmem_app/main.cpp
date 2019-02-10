@@ -1,9 +1,9 @@
 #include "leitmem.h"
 #include "ui_cli.h"
 #include "flipcards_from_xml_file.h"
-#include "time_probe.h"
 
 #include "tools/parse_cli_arguments.h"
+#include "tools/time_probe.h"
 
 #include <iostream>
 #include <string_view>
@@ -19,7 +19,7 @@ int main(int argc, char** argv)
    flipcards_from_xml_file flipcard_store(
       cli_arguments["knowledge"]);
    
-   time_probe time_probe;
+   mzlib::time_probe time_probe;
    
    leitmem engine(time_probe, flipcard_store);
    

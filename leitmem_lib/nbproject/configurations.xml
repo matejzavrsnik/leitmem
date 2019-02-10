@@ -8,6 +8,8 @@
       <itemPath>flipcards_from_xml_file.h</itemPath>
       <itemPath>i_flipcard_store.h</itemPath>
       <itemPath>leitmem.h</itemPath>
+      <itemPath>time_probe.h</itemPath>
+      <itemPath>time_probe_interface.h</itemPath>
       <itemPath>ui_cli.h</itemPath>
       <itemPath>utils.h</itemPath>
     </logicalFolder>
@@ -20,6 +22,7 @@
                    projectFiles="true">
       <itemPath>flipcards_from_xml_file.cpp</itemPath>
       <itemPath>leitmem.cpp</itemPath>
+      <itemPath>time_probe.cpp</itemPath>
       <itemPath>ui_cli.cpp</itemPath>
       <itemPath>utils.cpp</itemPath>
     </logicalFolder>
@@ -68,6 +71,12 @@
       <item path="leitmem.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="leitmem.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="time_probe.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="time_probe.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="time_probe_interface.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="ui_cli.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -119,6 +128,12 @@
       <item path="leitmem.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="leitmem.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="time_probe.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="time_probe.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="time_probe_interface.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="ui_cli.cpp" ex="false" tool="1" flavor2="0">
       </item>

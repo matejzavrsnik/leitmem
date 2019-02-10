@@ -1,6 +1,8 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+#include <string_view>
+
 static const std::string_view tag_answered = "answered";
 static const std::string_view tag_flipcard = "flipcard";
 static const std::string_view tag_answer   = "answer";

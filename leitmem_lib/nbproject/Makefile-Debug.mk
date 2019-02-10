@@ -37,6 +37,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 OBJECTFILES= \
 	${OBJECTDIR}/flipcards_from_xml_file.o \
 	${OBJECTDIR}/leitmem.o \
+	${OBJECTDIR}/time_probe.o \
 	${OBJECTDIR}/ui_cli.o \
 	${OBJECTDIR}/utils.o
 
@@ -74,6 +75,11 @@ ${OBJECTDIR}/leitmem.o: leitmem.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -g -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/glibmm-2.4 -I/usr/lib64/glibmm-2.4/include -I/usr/include/libxml++-2.6 -I/usr/lib64/libxml++-2.6/include -I../../mzlib/include -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem.o leitmem.cpp
+
+${OBJECTDIR}/time_probe.o: time_probe.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -g -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/glibmm-2.4 -I/usr/lib64/glibmm-2.4/include -I/usr/include/libxml++-2.6 -I/usr/lib64/libxml++-2.6/include -I../../mzlib/include -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/time_probe.o time_probe.cpp
 
 ${OBJECTDIR}/ui_cli.o: ui_cli.cpp
 	${MKDIR} -p ${OBJECTDIR}

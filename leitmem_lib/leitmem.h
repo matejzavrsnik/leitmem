@@ -2,21 +2,19 @@
 #define LEITMEM_H
 
 #include "i_flipcard_store.h"
+#include "time_probe_interface.h"
 
 #include "tools/datashelf.h"
 #include "lang/binary_options.h"
 
 #include <string_view>
 
-std::vector<mzlib::ds::pnode> 
-filter_which_to_ask_today(mzlib::ds::pnode all_flipcards);
-
-
 class leitmem
 {
    
 private:
    
+   time_probe_interface& m_time_probe;
    i_flipcards_store& m_flipcard_store;
    mzlib::ds::pnode m_flipcards;
    std::string m_knowledge_file;
@@ -30,12 +28,13 @@ private:
    void correctly_answered(mzlib::ds::pnode flipcard);
    void incorrectly_answered(mzlib::ds::pnode flipcard);
    
-   void load_knowledge();
    void save_knowledge();
    
 public:
    
-   leitmem(i_flipcards_store&);
+   leitmem(
+      time_probe_interface&,
+      i_flipcards_store&);
    
    std::string_view get_next_question();
    std::string_view get_answer(std::string_view question);

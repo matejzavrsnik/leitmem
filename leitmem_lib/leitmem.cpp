@@ -31,7 +31,7 @@ void leitmem::remove_from_todays_session(ds::pnode flipcard)
 
 void leitmem::correctly_answered(ds::pnode flipcard)
 {
-   remember_it_was_answered_today(flipcard);
+   remember_it_was_answered_today(flipcard, m_time_probe);
    
    advance_level(flipcard);
    
@@ -46,54 +46,21 @@ void leitmem::incorrectly_answered(ds::pnode flipcard)
    ds::add_or_edit_attribute(flipcard, tag_level, levels[0]);
 }
 
-std::vector<mzlib::ds::pnode> 
-filter_which_to_ask_today(
-mzlib::ds::pnode flipcards_document)
-{
-   std::vector<mzlib::ds::pnode> to_ask_today;
-   
-   if(!flipcards_document) return to_ask_today;
-   
-   std::vector<mzlib::ds::pnode> all_flipcards = ds::filter_by_name(
-      flipcards_document->nodes(), tag_flipcard);
-   
-   for(auto flipcard : all_flipcards) 
-   {
-      std::string_view answered = ds::get_attribute(flipcard, tag_answered)->value();
-      
-      if (answered.empty() || answered == value_never) {
-         to_ask_today.push_back(flipcard);
-      }
-      else {
-         double days_passed = days_between(
-            get_today_local(), 
-            convert_from_string(answered));
-         
-         double days_needed_to_pass = get_wait_time(flipcard);
-         
-         if(days_passed >= days_needed_to_pass)
-            to_ask_today.push_back(flipcard);
-      }
-   }
-   return to_ask_today;
-}
-
-void leitmem::load_knowledge()
-{  
-   m_flipcards = m_flipcard_store.load();
-   m_ask_today = filter_which_to_ask_today(m_flipcards);
-}
-
 void leitmem::save_knowledge()
 {
    m_flipcard_store.save(m_flipcards);
 }
 
 leitmem::leitmem(
+   time_probe_interface& time_probe,
    i_flipcards_store& flipcard_store) :
+      m_time_probe(time_probe),
       m_flipcard_store(flipcard_store),
       m_flipcards(m_flipcard_store.load()),
-      m_ask_today(filter_which_to_ask_today(m_flipcards))
+      m_ask_today(
+         filter_which_to_ask_today(
+            m_flipcards, 
+            m_time_probe))
 {}
 
 string_view leitmem::get_next_question()

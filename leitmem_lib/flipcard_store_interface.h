@@ -3,7 +3,7 @@
 
 #include "tools/datashelf.h"
 
-class i_flipcards_store
+class flipcards_store_interface
 {
    
 public:

@@ -5,8 +5,8 @@
                    displayName="Header Files"
                    projectFiles="true">
       <itemPath>constants.h</itemPath>
+      <itemPath>flipcard_store_interface.h</itemPath>
       <itemPath>flipcards_from_xml_file.h</itemPath>
-      <itemPath>i_flipcard_store.h</itemPath>
       <itemPath>leitmem.h</itemPath>
       <itemPath>time_probe.h</itemPath>
       <itemPath>time_probe_interface.h</itemPath>
@@ -62,11 +62,11 @@
       </compileType>
       <item path="constants.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="flipcard_store_interface.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="flipcards_from_xml_file.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="flipcards_from_xml_file.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="i_flipcard_store.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="leitmem.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -119,11 +119,11 @@
       </compileType>
       <item path="constants.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="flipcard_store_interface.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="flipcards_from_xml_file.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="flipcards_from_xml_file.h" ex="false" tool="3" flavor2="0">
-      </item>
-      <item path="i_flipcard_store.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="leitmem.cpp" ex="false" tool="1" flavor2="0">
       </item>

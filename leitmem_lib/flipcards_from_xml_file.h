@@ -1,13 +1,13 @@
 #ifndef FLIPCARDS_FROM_XML_FILE_H
 #define FLIPCARDS_FROM_XML_FILE_H
 
-#include "i_flipcard_store.h"
+#include "flipcard_store_interface.h"
 
 #include "tools/datashelf.h"
 
 #include <string>
 
-class flipcards_from_xml_file : public i_flipcards_store
+class flipcards_from_xml_file : public flipcards_store_interface
 {
    
 private:

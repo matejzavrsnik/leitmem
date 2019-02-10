@@ -1,9 +1,9 @@
 #ifndef MOCK_FLIPCARD_STORE_H
 #define MOCK_FLIPCARD_STORE_H
 
-#include "i_flipcard_store.h"
+#include "flipcard_store_interface.h"
 
-class mock_flipcard_store : public i_flipcards_store
+class mock_flipcard_store : public flipcards_store_interface
 {
    
 public:

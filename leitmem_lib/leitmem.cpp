@@ -53,7 +53,7 @@ void leitmem::save_knowledge()
 
 leitmem::leitmem(
    time_probe_interface& time_probe,
-   i_flipcards_store& flipcard_store) :
+   flipcards_store_interface& flipcard_store) :
       m_time_probe(time_probe),
       m_flipcard_store(flipcard_store),
       m_flipcards(m_flipcard_store.load()),

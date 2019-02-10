@@ -35,14 +35,5 @@ filter_which_to_ask_today(
    mzlib::ds::pnode all_flipcards,
    mzlib::time_probe_interface& tp);
 
-
-// generic functions about time
-std::string convert_to_string(std::tm date);
-std::tm convert_from_string(std::string_view date);
-std::tm convert_to_local_time(std::tm utc_time);
-double days_between(std::tm from, std::tm to);
-
-
-
 #endif /* UTILS_H */
 

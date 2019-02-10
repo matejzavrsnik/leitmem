@@ -37,6 +37,23 @@ void add_flipcard(
    flipcard->add_node("keywords", keywords); 
 }
 
+std::tm create_some_time()
+{
+   std::tm some_time;
+   some_time.tm_gmtoff = 0;	
+   some_time.tm_hour = 19;	
+   some_time.tm_isdst = 0;	
+   some_time.tm_mday = 10;	
+   some_time.tm_min = 20;
+   some_time.tm_mon = 1;
+   some_time.tm_sec = 21;	
+   some_time.tm_wday = 0;
+   some_time.tm_yday = 40;	
+   some_time.tm_year = 119;	
+   some_time.tm_zone = "GMT";
+   return some_time;
+}
+
 class fixture_leitmem : public Test 
 {
    
@@ -44,14 +61,17 @@ protected:
 
    fixture_leitmem() 
    {
+      prepare_flipcards(m_flipcards, 
+         "Blade Runner");
+            
       ON_CALL(m_flipcard_store, load())
          .WillByDefault(Return(m_flipcards));
       
-      prepare_flipcards(m_flipcards, 
-         "Blade Runner");
+      today = create_some_time();
       
       ON_CALL(m_time_probe, get_today_local())
          .WillByDefault(Return(today));
+      
    }
    
    ~fixture_leitmem() {}
@@ -162,6 +182,23 @@ TEST_F(fixture_leitmem, answering_question_incorrectly_will_ask_again)
 }
 
 TEST_F(fixture_leitmem, answering_question_correctly_will_not_ask_again_immediately) 
+{
+   add_flipcard(m_flipcards,
+      "What are synthetic humans called?",
+      "Synthetic humans are called 'replicants'.",
+      "replicants"); 
+   
+   leitmem engine(m_time_probe, m_flipcard_store);
+   engine.submit_answer(
+      "What are synthetic humans called?",
+      "replicants");
+   
+   std::string_view question = engine.get_next_question();
+   
+   ASSERT_NE(question, "What are synthetic humans called?");
+}
+
+TEST_F(fixture_leitmem, on_first_correct_answer_asked_again_day_after)
 {
    add_flipcard(m_flipcards,
       "What are synthetic humans called?",

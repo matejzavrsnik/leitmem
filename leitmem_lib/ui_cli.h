@@ -22,11 +22,11 @@ private:
    
    void output(std::string_view s);
    void wait_for_enter();
-   std::string_view present_question();
+   /*std::string_view */void present_question();
    std::string collect_user_input();
    bool is_command(std::string_view user_input);
    void handle_command(std::string_view command);
-   void submit_answer(std::string_view question, std::string_view answer);
+   void submit_answer(/*std::string_view question,*/ std::string_view answer);
    bool should_game_continue();
 };
 

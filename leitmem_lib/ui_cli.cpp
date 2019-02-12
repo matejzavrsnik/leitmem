@@ -14,13 +14,13 @@ void ui_cli::main_loop()
 {
    while (should_game_continue())
    {
-      string_view question = present_question();
+      /*string_view question = */present_question();
       string user_input = collect_user_input();
 
       if(is_command(user_input))
          handle_command(user_input);
       else
-         submit_answer(question, user_input);
+         submit_answer(/*question, */user_input);
    }
 
    m_engine.quit();
@@ -36,11 +36,11 @@ void ui_cli::wait_for_enter()
    cin.ignore();
 }
 
-string_view ui_cli::present_question()
+/*string_view */ void ui_cli::present_question()
 {
    string_view question = m_engine.get_next_question();
    cout << question << endl;
-   return question;
+   //return question;
 }
 
 string ui_cli::collect_user_input()
@@ -67,14 +67,14 @@ void ui_cli::handle_command(string_view command)
    }
 }
 
-void ui_cli::submit_answer(string_view question, string_view answer)
+void ui_cli::submit_answer(/*string_view question, */string_view answer)
 {
-   bool correct = m_engine.submit_answer(question, answer);
+   bool correct = m_engine.submit_answer(/*question, */answer);
 
    if (correct) output("Correct :)");
    else output("Wrong :(");
 
-   output(m_engine.get_answer(question));
+   output(m_engine.get_answer(/*question*/));
    wait_for_enter();
 }
 

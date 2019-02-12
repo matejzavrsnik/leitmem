@@ -67,26 +67,35 @@ string_view leitmem::get_next_question()
    if (m_ask_today.empty())
       return "No more questions."; // todo
    
-   auto flipcard = *get_random_element(m_ask_today.begin(), m_ask_today.end());
+   m_being_asked = *get_random_element(m_ask_today.begin(), m_ask_today.end());
 
-   auto question = ds::get_attribute (flipcard, tag_question)->value();
+   auto question = ds::get_attribute (m_being_asked, tag_question)->value();
    return question;
 }
 
-string_view leitmem::get_answer(string_view question)
+string_view leitmem::get_answer(/*string_view question*/)
 {
-   auto flipcard = get_flipcard(question);
-   auto answer = ds::first(flipcard->nodes(), tag_answer)->value();
+   //m_being_asked = get_flipcard(question);
+   auto answer = ds::first(m_being_asked->nodes(), tag_answer)->value();
    return answer;
 }
 
-bool leitmem::submit_answer(string_view question, string_view answer)
+bool leitmem::submit_answer(string_view answer)
 {
-   auto flipcard = get_flipcard(question);
-   bool correct = evaluate_answer(answer, flipcard);
-   if(correct) correctly_answered(flipcard);
-   else incorrectly_answered(flipcard);
-   return correct;
+   if (m_being_asked)
+   {
+   //auto flipcard = get_flipcard(question);
+      bool correct = evaluate_answer(answer, m_being_asked);
+      if (correct) {
+         correctly_answered(m_being_asked);
+      }
+      else {
+         incorrectly_answered(m_being_asked);
+      }
+      m_being_asked = nullptr;
+      return correct;
+   }
+   return false;
 }
 
 void leitmem::quit() 

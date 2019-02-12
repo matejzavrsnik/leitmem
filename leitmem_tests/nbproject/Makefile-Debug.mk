@@ -35,7 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/leitmem.o \
+	${OBJECTDIR}/leitmem_logic.o \
 	${OBJECTDIR}/main.o
 
 
@@ -66,10 +66,10 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/leitmem_tests: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/leitmem_tests ${OBJECTFILES} ${LDLIBSOPTIONS}
 
-${OBJECTDIR}/leitmem.o: leitmem.cpp
+${OBJECTDIR}/leitmem_logic.o: leitmem_logic.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../leitmem_lib -I../../mzlib/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem.o leitmem.cpp
+	$(COMPILE.cc) -g -I../leitmem_lib -I../../mzlib/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem_logic.o leitmem_logic.cpp
 
 ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}

@@ -19,6 +19,7 @@ private:
    mzlib::ds::pnode m_flipcards;
    std::string m_knowledge_file;
    
+   mzlib::ds::pnode m_being_asked;
    std::vector<mzlib::ds::pnode> m_ask_today;
    std::vector<mzlib::ds::pnode> m_ask_today_after;
    
@@ -37,8 +38,8 @@ public:
       flipcards_store_interface&);
    
    std::string_view get_next_question();
-   std::string_view get_answer(std::string_view question);
-   bool submit_answer(std::string_view question, std::string_view answer);
+   std::string_view get_answer();
+   bool submit_answer(std::string_view answer);
    void quit();
 };
 

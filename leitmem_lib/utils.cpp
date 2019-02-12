@@ -59,6 +59,13 @@ advance_level(
    ds::add_or_edit_attribute(flipcard, tag_level, *level_it);   
 }
 
+void 
+reset_level(
+   mzlib::ds::pnode flipcard)
+{
+   ds::add_or_edit_attribute(flipcard, tag_level, levels[0]);
+}
+
 double 
 get_wait_time(
    ds::pnode flipcard)
@@ -69,54 +76,77 @@ get_wait_time(
 }
 
 void 
-remember_it_was_answered_today(
+mark_answered_today(
    ds::pnode flipcard,
-   time_probe_interface& tp)
+   time_probe_interface& time_probe)
 {
    std::string today = mzlib::convert_to_string(
-      tp.get_today_local(), value_date_format);
+      time_probe.get_today_local(), 
+      value_date_format);
+   
    ds::add_or_edit_attribute(flipcard, tag_answered, today);
 }
 
-std::vector<mzlib::ds::pnode> 
-filter_which_to_ask_today(
-   mzlib::ds::pnode flipcards_document,
-   time_probe_interface& time_probe)
+void 
+mark_never_answered(
+   mzlib::ds::pnode flipcard)
 {
-   std::vector<mzlib::ds::pnode> to_ask_today;
-   
-   if(!flipcards_document) return to_ask_today;
-   
-   std::vector<mzlib::ds::pnode> all_flipcards = ds::filter_by_name(
-      flipcards_document->nodes(), tag_flipcard);
-   
-   for(auto flipcard : all_flipcards) 
-   {
-      std::string_view answered = 
-         ds::get_attribute(
-            flipcard, 
-            tag_answered)
-               ->value();
-      
-      if (answered.empty() || answered == value_never) {
-         to_ask_today.push_back(flipcard);
-      }
-      else {
-         double days_passed = 
-            days_between(
-               time_probe.get_today_local(), 
-               convert_from_string(
-                  answered, 
-                  value_date_format, 
-                  time_probe));
-         
-         double days_needed_to_pass = get_wait_time(flipcard);
-         
-         if(days_passed >= days_needed_to_pass)
-            to_ask_today.push_back(flipcard);
-      }
-   }
-   return to_ask_today;
+   ds::add_or_edit_attribute(flipcard, tag_answered, value_never);
 }
 
+bool never_answered_correctly(mzlib::ds::pnode flipcard)
+{
+   std::string_view answered = 
+      ds::get_attribute(
+         flipcard, 
+         tag_answered)
+            ->value();
 
+   return (answered.empty() || answered == value_never);
+}
+
+bool enough_days_passed(
+   mzlib::ds::pnode flipcard, 
+   time_probe_interface& time_probe)
+{
+   std::string_view answered = 
+      ds::get_attribute(
+         flipcard, 
+         tag_answered)
+            ->value();
+   
+   std::tm when_aswered = convert_from_string(
+      answered, 
+      value_date_format, 
+      time_probe);
+   
+   std::tm today = time_probe.get_today_local();
+   
+   double days_passed = days_between(when_aswered, today);
+
+   const double days_needed_to_pass = get_wait_time(flipcard);
+
+   return (days_passed >= days_needed_to_pass);
+}
+
+bool 
+ask_today(
+   mzlib::ds::pnode flipcard, 
+   time_probe_interface& time_probe)
+{
+   if (never_answered_correctly(flipcard))
+      return true;
+
+   if (enough_days_passed(flipcard, time_probe))
+      return true;
+
+   return false;
+}
+
+std::string_view 
+get_question_from_flipcard(
+   mzlib::ds::pnode flipcard)
+{
+   auto question = ds::get_attribute (flipcard, tag_question)->value();
+   return question;
+}

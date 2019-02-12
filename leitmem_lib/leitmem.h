@@ -17,15 +17,14 @@ private:
    mzlib::time_probe_interface& m_time_probe;
    flipcards_store_interface& m_flipcard_store;
    mzlib::ds::pnode m_flipcards;
-   std::string m_knowledge_file;
    
    mzlib::ds::pnode m_being_asked;
    std::vector<mzlib::ds::pnode> m_ask_today;
    std::vector<mzlib::ds::pnode> m_ask_today_after;
-   
-   mzlib::ds::pnode get_flipcard(std::string_view question);
+   std::vector<mzlib::ds::pnode> m_ask_later;
 
-   void remove_from_todays_session(mzlib::ds::pnode flipcard);
+   void sort_flipcards(std::vector<mzlib::ds::pnode> flipcards);
+   
    void correctly_answered(mzlib::ds::pnode flipcard);
    void incorrectly_answered(mzlib::ds::pnode flipcard);
    
@@ -37,7 +36,7 @@ public:
       mzlib::time_probe_interface&,
       flipcards_store_interface&);
    
-   std::string_view get_next_question();
+   std::string_view get_question();
    std::string_view get_answer();
    bool submit_answer(std::string_view answer);
    void quit();

@@ -3,43 +3,37 @@
 #include "constants.h"
 
 #include "iterators/get_random.h"
+#include "tools/relocate.h"
 
 #include <sstream>
 
 using namespace std;
 using namespace mzlib;
 
-
-ds::pnode leitmem::get_flipcard(string_view question)
-{
-   auto flipcard = ds::first_with_attribute(
-      m_flipcards->nodes(), "flipcard", 
-      "question", question);
-   return flipcard;
+void leitmem::sort_flipcards(std::vector<mzlib::ds::pnode> flipcards)
+{          
+   std::vector<mzlib::ds::pnode> new_ask_later;
+   
+   for (auto& flipcard : flipcards)
+      if (ask_today(flipcard, m_time_probe))
+         m_ask_today.push_back(flipcard);
+      else
+         new_ask_later.push_back(flipcard);
+   
+   m_ask_later.swap(new_ask_later);
 }
-
-void leitmem::remove_from_todays_session(ds::pnode flipcard)
-{
-   auto flipcard_it = std::find(m_ask_today.begin(), m_ask_today.end(), flipcard);
-   m_ask_today.erase(flipcard_it);
-}
-
 
 void leitmem::correctly_answered(ds::pnode flipcard)
 {
-   remember_it_was_answered_today(flipcard, m_time_probe);
-   
+   relocate(flipcard, m_ask_today, m_ask_later);
+   mark_answered_today(flipcard, m_time_probe);
    advance_level(flipcard);
-   
-   remove_from_todays_session(flipcard);
 }
 
 void leitmem::incorrectly_answered(ds::pnode flipcard)
 {
-   m_ask_today_after.push_back(flipcard);
-   remove_from_todays_session(flipcard);
-   ds::add_or_edit_attribute(flipcard, tag_answered, value_never);
-   ds::add_or_edit_attribute(flipcard, tag_level, levels[0]);
+   mark_never_answered(flipcard);
+   relocate(flipcard, m_ask_today, m_ask_today_after);
 }
 
 void leitmem::save_knowledge()
@@ -52,15 +46,19 @@ leitmem::leitmem(
    flipcards_store_interface& flipcard_store) :
       m_time_probe(time_probe),
       m_flipcard_store(flipcard_store),
-      m_flipcards(m_flipcard_store.load()),
-      m_ask_today(
-         filter_which_to_ask_today(
-            m_flipcards, 
-            m_time_probe))
-{}
-
-string_view leitmem::get_next_question()
+      m_flipcards(m_flipcard_store.load())
 {
+   if (m_flipcards)
+      sort_flipcards(m_flipcards->nodes());
+}
+
+string_view leitmem::get_question()
+{             
+   if (m_being_asked)
+      return get_question_from_flipcard(m_being_asked);
+      
+   sort_flipcards(m_ask_later);
+   
    if (m_ask_today.empty())
       m_ask_today.swap(m_ask_today_after);
       
@@ -69,13 +67,11 @@ string_view leitmem::get_next_question()
    
    m_being_asked = *get_random_element(m_ask_today.begin(), m_ask_today.end());
 
-   auto question = ds::get_attribute (m_being_asked, tag_question)->value();
-   return question;
+   return get_question_from_flipcard(m_being_asked);
 }
 
-string_view leitmem::get_answer(/*string_view question*/)
+string_view leitmem::get_answer()
 {
-   //m_being_asked = get_flipcard(question);
    auto answer = ds::first(m_being_asked->nodes(), tag_answer)->value();
    return answer;
 }
@@ -84,8 +80,8 @@ bool leitmem::submit_answer(string_view answer)
 {
    if (m_being_asked)
    {
-   //auto flipcard = get_flipcard(question);
       bool correct = evaluate_answer(answer, m_being_asked);
+      
       if (correct) {
          correctly_answered(m_being_asked);
       }

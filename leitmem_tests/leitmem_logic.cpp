@@ -170,6 +170,16 @@ TEST_F(fixture_leitmem_logic, can_get_answer)
    ASSERT_EQ(answer, m_answer_1);
 }
 
+TEST_F(fixture_leitmem_logic, get_answer_before_asking_question_doesnt_segfault) 
+{
+   add_question_1();
+   leitmem engine(m_time_probe, m_flipcard_store);
+   
+   engine.get_answer();
+   
+   SUCCEED();
+}
+
 TEST_F(fixture_leitmem_logic, recognises_correct_answer) 
 {
    add_question_1();

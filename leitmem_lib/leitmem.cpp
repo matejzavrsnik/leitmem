@@ -73,6 +73,8 @@ string_view leitmem::get_question()
 
 string_view leitmem::get_answer()
 {
+   if (!m_being_asked)
+      return "";
    auto answer = ds::first(m_being_asked->nodes(), tag_answer)->value();
    return answer;
 }

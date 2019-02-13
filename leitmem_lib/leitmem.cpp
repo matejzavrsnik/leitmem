@@ -32,8 +32,9 @@ void leitmem::correctly_answered(ds::pnode flipcard)
 
 void leitmem::incorrectly_answered(ds::pnode flipcard)
 {
-   mark_never_answered(flipcard);
    relocate(flipcard, m_ask_today, m_ask_today_after);
+   mark_never_answered(flipcard);
+   reset_level(flipcard);
 }
 
 void leitmem::save_knowledge()
@@ -92,9 +93,4 @@ bool leitmem::submit_answer(string_view answer)
       return correct;
    }
    return false;
-}
-
-void leitmem::quit() 
-{
-   save_knowledge();
 }

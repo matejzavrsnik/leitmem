@@ -28,7 +28,7 @@ private:
    void correctly_answered(mzlib::ds::pnode flipcard);
    void incorrectly_answered(mzlib::ds::pnode flipcard);
    
-   void save_knowledge();
+
    
 public:
    
@@ -39,7 +39,8 @@ public:
    std::string_view get_question();
    std::string_view get_answer();
    bool submit_answer(std::string_view answer);
-   void quit();
+   
+   void save_knowledge();
 };
 
 #endif /* LEITMEM_H */

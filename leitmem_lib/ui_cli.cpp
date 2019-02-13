@@ -23,7 +23,7 @@ void ui_cli::main_loop()
          submit_answer(/*question, */user_input);
    }
 
-   m_engine.quit();
+   m_engine.save_knowledge();
 }
 
 void ui_cli::output(string_view s)

@@ -23,7 +23,7 @@ private:
    std::vector<mzlib::ds::pnode> m_ask_today_after;
    std::vector<mzlib::ds::pnode> m_ask_later;
 
-   void sort_flipcards(std::vector<mzlib::ds::pnode> flipcards);
+   void sort_flipcards(const std::vector<mzlib::ds::pnode>& flipcards);
    
    void correctly_answered(mzlib::ds::pnode flipcard);
    void incorrectly_answered(mzlib::ds::pnode flipcard);

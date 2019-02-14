@@ -58,6 +58,10 @@ std::string_view
 get_question_from_flipcard(
    mzlib::ds::pnode flipcard);
 
+bool
+is_valid_flipcard(
+   mzlib::ds::pnode flipcard);
+
 inline
 void debug_print(std::vector<mzlib::ds::pnode> f)
 {

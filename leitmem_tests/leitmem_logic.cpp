@@ -148,6 +148,52 @@ TEST_F(fixture_leitmem_logic, zero_questions_yields_no_more_questions)
    ASSERT_EQ(question, "No more questions.");
 }
 
+TEST_F(fixture_leitmem_logic, will_ignore_flipcards_that_are_not_flipcard) 
+{
+   auto flipcard = m_flipcards->add_node("not_flipcard");
+   
+   leitmem engine(m_time_probe, m_flipcard_store);
+   std::string_view question = engine.get_question();
+   
+   ASSERT_EQ(question, "No more questions.");
+}
+
+TEST_F(fixture_leitmem_logic, will_ignore_flipcards_without_question_tag) 
+{
+   auto flipcard = m_flipcards->add_node("flipcard");
+   flipcard->add_node("answer", "a");
+   flipcard->add_node("keywords", "k"); 
+   
+   leitmem engine(m_time_probe, m_flipcard_store);
+   std::string_view question = engine.get_question();
+   
+   ASSERT_EQ(question, "No more questions.");
+}
+
+TEST_F(fixture_leitmem_logic, will_ignore_flipcards_without_answer_tag) 
+{
+   auto flipcard = m_flipcards->add_node("flipcard");
+   flipcard->add_attribute("question", "q");
+   flipcard->add_node("keywords", "k"); 
+   
+   leitmem engine(m_time_probe, m_flipcard_store);
+   std::string_view question = engine.get_question();
+   
+   ASSERT_EQ(question, "No more questions.");
+}
+
+TEST_F(fixture_leitmem_logic, will_ignore_flipcards_without_keyword_tag) 
+{
+   auto flipcard = m_flipcards->add_node("flipcard");
+   flipcard->add_attribute("question", "q");
+   flipcard->add_node("answer", "a"); 
+   
+   leitmem engine(m_time_probe, m_flipcard_store);
+   std::string_view question = engine.get_question();
+   
+   ASSERT_EQ(question, "No more questions.");
+}
+
 TEST_F(fixture_leitmem_logic, can_get_question) 
 {
    add_question_1();     
@@ -341,22 +387,6 @@ TEST_F(fixture_leitmem_logic, on_incorrect_answer_updates_attribute_date)
    flipcard = mzlib::ds::first(m_flipcards->nodes(), tag_flipcard);
    auto answered = mzlib::ds::get_attribute(flipcard, tag_answered)->value();
    ASSERT_EQ(answered, value_never);
-}
-
-TEST_F(fixture_leitmem_logic, if_not_answered_returns_the_same_question) 
-{
-   add_question_1();
-   add_question_2();
-   leitmem engine(m_time_probe, m_flipcard_store);
-   
-   std::string_view question1 = engine.get_question();
-   std::string_view question2 = engine.get_question();
-   std::string_view question3 = engine.get_question();
-   std::string_view question4 = engine.get_question();
-   
-   ASSERT_EQ(question1, question2);
-   ASSERT_EQ(question2, question3);
-   ASSERT_EQ(question3, question4);
 }
 
 TEST_F(fixture_leitmem_logic, answering_question_incorrectly_will_ask_again) 

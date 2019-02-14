@@ -10,15 +10,23 @@
 using namespace std;
 using namespace mzlib;
 
-void leitmem::sort_flipcards(std::vector<mzlib::ds::pnode> flipcards)
+void leitmem::sort_flipcards(const std::vector<mzlib::ds::pnode>& flipcards)
 {          
    std::vector<mzlib::ds::pnode> new_ask_later;
    
-   for (auto& flipcard : flipcards)
-      if (ask_today(flipcard, m_time_probe))
-         m_ask_today.push_back(flipcard);
-      else
-         new_ask_later.push_back(flipcard);
+   for (auto& flipcard : flipcards) 
+   {
+      if (is_valid_flipcard(flipcard)) 
+      {
+         if (ask_today(flipcard, m_time_probe)) 
+         {
+            m_ask_today.push_back(flipcard);
+         }
+         else {
+            new_ask_later.push_back(flipcard);
+         }
+      }
+   }
    
    m_ask_later.swap(new_ask_later);
 }
@@ -48,16 +56,18 @@ leitmem::leitmem(
       m_time_probe(time_probe),
       m_flipcard_store(flipcard_store),
       m_flipcards(m_flipcard_store.load())
-{
+{          
    if (m_flipcards)
+   {
       sort_flipcards(m_flipcards->nodes());
+   }
+   //debug_print(m_flipcards->nodes());
 }
 
 string_view leitmem::get_question()
 {             
-   if (m_being_asked)
-      return get_question_from_flipcard(m_being_asked);
-      
+   m_being_asked = nullptr;
+
    sort_flipcards(m_ask_later);
    
    if (m_ask_today.empty())
@@ -91,7 +101,6 @@ bool leitmem::submit_answer(string_view answer)
       else {
          incorrectly_answered(m_being_asked);
       }
-      m_being_asked = nullptr;
       return correct;
    }
    return false;

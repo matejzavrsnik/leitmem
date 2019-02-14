@@ -143,6 +143,23 @@ ask_today(
    return false;
 }
 
+bool
+is_valid_flipcard(
+   mzlib::ds::pnode flipcard)
+{
+   if (flipcard->name() != tag_flipcard)
+      return false;
+   if (mzlib::ds::get_attribute(flipcard, tag_question)->is_empty())
+      return false;
+   
+   if (mzlib::ds::filter_by_name(flipcard->nodes(), tag_answer).size() == 0)
+      return false;
+   if (mzlib::ds::filter_by_name(flipcard->nodes(), tag_keywords).size() == 0)
+      return false;
+   
+   return true;
+}
+
 std::string_view 
 get_question_from_flipcard(
    mzlib::ds::pnode flipcard)

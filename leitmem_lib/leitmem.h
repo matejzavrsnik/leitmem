@@ -36,6 +36,7 @@ public:
       mzlib::time_probe_interface&,
       flipcards_store_interface&);
    
+   int questions_left();
    std::string_view get_question();
    std::string_view get_answer();
    bool submit_answer(std::string_view answer);

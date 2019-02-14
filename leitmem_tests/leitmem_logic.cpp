@@ -148,6 +148,16 @@ TEST_F(fixture_leitmem_logic, zero_questions_yields_no_more_questions)
    ASSERT_EQ(question, "No more questions.");
 }
 
+TEST_F(fixture_leitmem_logic, questions_left_returns_zero_when_store_empty) 
+{
+   NiceMock<mock_flipcard_store> store; 
+   ON_CALL(store, load())
+      .WillByDefault(Return(std::make_shared<mzlib::ds::node>()));
+   leitmem engine(m_time_probe, store);
+   
+   ASSERT_EQ(engine.questions_left(), 0);
+}
+
 TEST_F(fixture_leitmem_logic, will_ignore_flipcards_that_are_not_flipcard) 
 {
    auto flipcard = m_flipcards->add_node("not_flipcard");
@@ -204,6 +214,16 @@ TEST_F(fixture_leitmem_logic, can_get_question)
    ASSERT_EQ(question, m_question_1);
 }
 
+TEST_F(fixture_leitmem_logic, questions_left_unchanged_after_get_question) 
+{
+   add_question_1();     
+   leitmem engine(m_time_probe, m_flipcard_store);
+   
+   engine.get_question();
+   
+   ASSERT_EQ(engine.questions_left(), 1);
+}
+
 TEST_F(fixture_leitmem_logic, can_get_answer) 
 {
    add_question_1();
@@ -237,6 +257,24 @@ TEST_F(fixture_leitmem_logic, recognises_correct_answer)
    ASSERT_TRUE(correct);
 }
 
+TEST_F(fixture_leitmem_logic, questions_left_one_before_answering_only_question) 
+{
+   add_question_1();
+   leitmem engine(m_time_probe, m_flipcard_store);
+   
+   ASSERT_EQ(engine.questions_left(), 1);
+}
+
+TEST_F(fixture_leitmem_logic, questions_left_zero_after_answering_only_question) 
+{
+   add_question_1();
+   leitmem engine(m_time_probe, m_flipcard_store);
+   engine.get_question();
+   engine.submit_answer(get_correct_answer(m_question_1));
+   
+   ASSERT_EQ(engine.questions_left(), 0);
+}
+
 TEST_F(fixture_leitmem_logic, recognises_incorrect_answer) 
 {
    add_question_1();
@@ -248,6 +286,39 @@ TEST_F(fixture_leitmem_logic, recognises_incorrect_answer)
    ASSERT_FALSE(correct);
 }
 
+TEST_F(fixture_leitmem_logic, questions_left_unchanged__after_incorrect_answer) 
+{
+   add_question_1();
+   leitmem engine(m_time_probe, m_flipcard_store);
+   engine.get_question();
+   engine.submit_answer("wrong answer");
+   
+   ASSERT_EQ(engine.questions_left(), 1);
+}
+
+TEST_F(fixture_leitmem_logic, after_correct_answer_can_still_get_answer) 
+{
+   add_question_1();
+   leitmem engine(m_time_probe, m_flipcard_store);
+   engine.get_question();
+   engine.submit_answer(get_correct_answer(m_question_1));
+   
+   auto answer = engine.get_answer();
+   
+   ASSERT_EQ(answer, m_answer_1);
+}
+
+TEST_F(fixture_leitmem_logic, after_incorrect_answer_can_still_get_answer) 
+{
+   add_question_1();
+   leitmem engine(m_time_probe, m_flipcard_store);
+   engine.get_question();
+   engine.submit_answer("wrong answer");
+   
+   auto answer = engine.get_answer();
+   
+   ASSERT_EQ(answer, m_answer_1);
+}
 
 TEST_F(fixture_leitmem_logic, on_correct_answer_adds_attribute_level) 
 {
@@ -434,6 +505,27 @@ TEST_F(fixture_leitmem_logic, answering_all_questions_incorrectly_will_start_aga
    
    ASSERT_NE(question1, question2);
    ASSERT_NE(question3, question4);
+}
+
+TEST_F(fixture_leitmem_logic, questions_left_is_two_when_two_questions) 
+{
+   add_question_1();
+   add_question_2();
+   leitmem engine(m_time_probe, m_flipcard_store);
+   
+   ASSERT_EQ(engine.questions_left(), 2);
+}
+
+TEST_F(fixture_leitmem_logic, questions_left_decremented_after_correct_answer) 
+{
+   add_question_1();
+   add_question_2();
+   leitmem engine(m_time_probe, m_flipcard_store);
+   
+   std::string_view question = engine.get_question();
+   engine.submit_answer(get_correct_answer(question));
+   
+   ASSERT_EQ(engine.questions_left(), 1);
 }
 
 TEST_F(fixture_leitmem_logic, answering_question_correctly_will_not_ask_again_immediately) 

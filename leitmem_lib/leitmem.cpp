@@ -64,6 +64,11 @@ leitmem::leitmem(
    //debug_print(m_flipcards->nodes());
 }
 
+int leitmem::questions_left()
+{
+   return m_ask_today.size() + m_ask_today_after.size();
+}
+
 string_view leitmem::get_question()
 {             
    m_being_asked = nullptr;

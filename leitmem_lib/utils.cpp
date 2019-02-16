@@ -21,24 +21,42 @@ answer_is_similar_to_displayed(
    return percent_off < 0.3;
 }
 
+bool
+evaluate_by_keywords(
+   std::string_view answer, 
+   std::shared_ptr<mzlib::ds::node> flipcard)
+{
+   auto keywords_nodes = ds::filter_by_name(
+      flipcard->nodes(), tag_keywords);
+   
+   for(auto keyword_node : keywords_nodes)
+   {
+      string flipcard_keywords = 
+         mzlib::to_lowercase_copy<string>(
+            keyword_node->value());
+      
+      if (mzlib::all_words_appear(flipcard_keywords, answer))
+         return true;
+   }
+   return false;
+}
+
 bool 
 evaluate_answer(
    string_view answer, 
    ds::pnode flipcard)
 {
    string_view mixed_case_flipcard_answer = ds::first(flipcard->nodes(), tag_answer)->value();
-   string_view mixed_case_flipcard_keywords = ds::first(flipcard->nodes(), tag_keywords)->value();
-   
+    
    string user_answer = mzlib::to_lowercase_copy<string>(answer);
    string flipcard_answer = mzlib::to_lowercase_copy<string>(mixed_case_flipcard_answer);
-   string flipcard_keywords = mzlib::to_lowercase_copy<string>(mixed_case_flipcard_keywords);
       
    if (user_answer.size() == 0)
       return false;
-    
-   if (mzlib::all_words_appear(flipcard_keywords, user_answer))
+   
+   if (evaluate_by_keywords(answer, flipcard))
       return true;
-    
+   
    if (answer_is_similar_to_displayed(user_answer, flipcard_answer))
       return true;
     

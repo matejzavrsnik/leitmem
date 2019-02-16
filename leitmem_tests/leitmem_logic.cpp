@@ -36,12 +36,15 @@ void add_flipcard(
    mzlib::ds::pnode flipcards,
    std::string_view question,
    std::string_view answer,
-   std::string_view keywords)
+   std::vector<std::string_view> keywords)
 {
    auto flipcard = flipcards->add_node("flipcard");
    flipcard->add_attribute("question", question);
    flipcard->add_node("answer", answer);
-   flipcard->add_node("keywords", keywords); 
+   for(auto keyword : keywords)
+   {
+      flipcard->add_node("keywords", keyword); 
+   }
 }
 
 std::tm create_some_time()
@@ -103,7 +106,7 @@ protected:
       add_flipcard(m_flipcards,
          m_question_1,
          m_answer_1,
-         m_keyword_1); 
+         {m_keyword_1}); 
    }
 
    void add_question_2()
@@ -111,7 +114,7 @@ protected:
       add_flipcard(m_flipcards,
          m_question_2,
          "Blade Runner was based on a book Do Androids Dream of Electric Sheep by Philip K. Dick.",
-         "Do Androids Dream of Electric Sheep"); 
+         {"Do Androids Dream of Electric Sheep"}); 
    }
 
    std::string_view get_correct_answer(std::string_view question)
@@ -246,7 +249,7 @@ TEST_F(fixture_leitmem_logic, get_answer_before_asking_question_doesnt_segfault)
    SUCCEED();
 }
 
-TEST_F(fixture_leitmem_logic, recognises_correct_answer) 
+TEST_F(fixture_leitmem_logic, answer_recognition_correct_keyword) 
 {
    add_question_1();
    leitmem engine(m_time_probe, m_flipcard_store);
@@ -255,6 +258,47 @@ TEST_F(fixture_leitmem_logic, recognises_correct_answer)
    bool correct = engine.submit_answer(get_correct_answer(m_question_1));
    
    ASSERT_TRUE(correct);
+}
+
+TEST_F(fixture_leitmem_logic, answer_recognition_incorrect_keyword) 
+{
+   add_question_1();
+   leitmem engine(m_time_probe, m_flipcard_store);
+   engine.get_question();
+   
+   bool correct = engine.submit_answer("wrong answer");
+   
+   ASSERT_FALSE(correct);
+}
+
+TEST_F(fixture_leitmem_logic, answer_recognition_alternative_keywords_first_accepted)
+{
+   add_flipcard(m_flipcards,
+      "What did Britain export to the rest of the Roman Empire?",
+      "Britain was rich in reserves of metals and exported lead, silver, tin and iron.",
+      {"metals", "lead, silver, tin, iron"});
+   
+   leitmem engine(m_time_probe, m_flipcard_store);
+   engine.get_question();
+
+   bool correct = engine.submit_answer("metals");
+
+   ASSERT_TRUE (correct);
+}
+
+TEST_F(fixture_leitmem_logic, answer_recognition_alternative_keywords_second_accepted)
+{
+   add_flipcard(m_flipcards,
+      "What did Britain export to the rest of the Roman Empire?",
+      "Britain was rich in reserves of metals and exported lead, silver, tin and iron.",
+      {"metals", "lead, silver, tin, iron"});
+   
+   leitmem engine(m_time_probe, m_flipcard_store);
+   engine.get_question();
+
+   bool correct = engine.submit_answer("lead, silver, tin, iron");
+
+   ASSERT_TRUE (correct);
 }
 
 TEST_F(fixture_leitmem_logic, questions_left_one_before_answering_only_question) 
@@ -273,17 +317,6 @@ TEST_F(fixture_leitmem_logic, questions_left_zero_after_answering_only_question)
    engine.submit_answer(get_correct_answer(m_question_1));
    
    ASSERT_EQ(engine.questions_left(), 0);
-}
-
-TEST_F(fixture_leitmem_logic, recognises_incorrect_answer) 
-{
-   add_question_1();
-   leitmem engine(m_time_probe, m_flipcard_store);
-   engine.get_question();
-   
-   bool correct = engine.submit_answer("wrong answer");
-   
-   ASSERT_FALSE(correct);
 }
 
 TEST_F(fixture_leitmem_logic, questions_left_unchanged__after_incorrect_answer) 
@@ -588,3 +621,4 @@ TEST_F(fixture_leitmem_logic, on_correct_answers_progression_through_levels_work
    }
    
 }
+

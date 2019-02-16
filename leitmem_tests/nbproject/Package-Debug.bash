@@ -139,6 +139,14 @@ cd "${TOP}"
 makeDirectory "${NBTMPDIR}/leitmemtests/bin"
 copyFileToTmpDir "${OUTPUT_PATH}" "${NBTMPDIR}/${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}" 0755
 
+cd "${TOP}"
+makeDirectory "${NBTMPDIR}/leitmemtests/bin"
+copyFileToTmpDir "${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libleitmem_lib.so" "${NBTMPDIR}/${PACKAGE_TOP_DIR}bin/libleitmem_lib.so" 0755
+
+cd "${TOP}"
+makeDirectory "${NBTMPDIR}/leitmemtests/bin"
+copyFileToTmpDir "${OUTPUT_PATH}" "${NBTMPDIR}/${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}" 0755
+
 
 # Generate tar file
 cd "${TOP}"

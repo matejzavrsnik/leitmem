@@ -54,7 +54,7 @@ evaluate_answer(
    if (user_answer.size() == 0)
       return false;
    
-   if (evaluate_by_keywords(answer, flipcard))
+   if (evaluate_by_keywords(user_answer, flipcard))
       return true;
    
    if (answer_is_similar_to_displayed(user_answer, flipcard_answer))

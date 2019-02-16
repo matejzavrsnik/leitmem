@@ -16,6 +16,7 @@
 
 #include "tools/tm_calc.h"
 #include "tools/datashelf.h"
+#include "string/case.h"
 
 #include <string_view>
 
@@ -256,6 +257,20 @@ TEST_F(fixture_leitmem_logic, answer_recognition_correct_keyword)
    engine.get_question();
    
    bool correct = engine.submit_answer(get_correct_answer(m_question_1));
+   
+   ASSERT_TRUE(correct);
+}
+
+TEST_F(fixture_leitmem_logic, answer_recognition_correct_keyword_ignores_case) 
+{
+   add_question_1();
+   leitmem engine(m_time_probe, m_flipcard_store);
+   engine.get_question();
+   std::string uppercase_answer = 
+      mzlib::to_uppercase_copy<std::string>(
+         get_correct_answer(m_question_1));
+   
+   bool correct = engine.submit_answer(uppercase_answer);
    
    ASSERT_TRUE(correct);
 }
@@ -554,9 +569,10 @@ TEST_F(fixture_leitmem_logic, questions_left_decremented_after_correct_answer)
    add_question_1();
    add_question_2();
    leitmem engine(m_time_probe, m_flipcard_store);
-   
    std::string_view question = engine.get_question();
-   engine.submit_answer(get_correct_answer(question));
+   std::string_view answer = get_correct_answer(question);
+   
+   engine.submit_answer(answer);
    
    ASSERT_EQ(engine.questions_left(), 1);
 }

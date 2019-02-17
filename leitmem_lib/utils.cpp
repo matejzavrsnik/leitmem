@@ -2,7 +2,8 @@
 #include "constants.h"
 
 #include "string/case.h"
-#include "string/all_words_appear.h"
+#include "string/are_substrings.h"
+#include "string/split.h"
 #include "tools/wagner_fischer_distance.h"
 #include "tools/time_probe.h"
 #include "tools/time_operations.h"
@@ -22,7 +23,7 @@ answer_is_similar_to_displayed(
 }
 
 bool
-evaluate_by_keywords(
+evaluate_keywords(
    std::string_view answer, 
    std::shared_ptr<mzlib::ds::node> flipcard)
 {
@@ -31,11 +32,15 @@ evaluate_by_keywords(
    
    for(auto keyword_node : keywords_nodes)
    {
-      string flipcard_keywords = 
-         mzlib::to_lowercase_copy<string>(
-            keyword_node->value());
+      auto split_keywords = 
+         mzlib::split(
+            keyword_node->value(), 
+            value_keywords_separator);
       
-      if (mzlib::all_words_appear(flipcard_keywords, answer))
+      if (mzlib::all_are_substrings_ci(
+         answer, 
+         split_keywords.begin(), 
+         split_keywords.end()))
          return true;
    }
    return false;
@@ -54,7 +59,7 @@ evaluate_answer(
    if (user_answer.size() == 0)
       return false;
    
-   if (evaluate_by_keywords(user_answer, flipcard))
+   if (evaluate_keywords(user_answer, flipcard))
       return true;
    
    if (answer_is_similar_to_displayed(user_answer, flipcard_answer))

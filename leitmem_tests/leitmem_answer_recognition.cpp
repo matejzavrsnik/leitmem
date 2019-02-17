@@ -34,6 +34,51 @@ TEST_F(fixture_leitmem_logic, answer_recognition_correct_keyword_ignores_case)
    ASSERT_TRUE(correct);
 }
 
+TEST_F(fixture_leitmem_logic, answer_recognition_keywords_order_does_not_matters) 
+{
+      add_flipcard(m_flipcards,
+         "Blade Runner cast?",
+         "Main actors were Harrison Ford and Rutger Hauer.",
+         {"Harrison Ford, Rutger Hauer"}); 
+   leitmem engine(m_time_probe, m_flipcard_store);
+   engine.get_question();
+   
+   bool correct = engine.submit_answer("Harrison Ford and Rutger Hauer");
+   
+   ASSERT_TRUE(correct);
+}
+
+TEST_F(fixture_leitmem_logic, answer_recognition_keywords_trimmed_of_spaces) 
+{
+      add_flipcard(m_flipcards,
+         "Blade Runner cast?",
+         "Main actors were Harrison Ford and Rutger Hauer.",
+         // keywords: space after first, two spaces before second
+         {"Harrison Ford ,  Rutger Hauer"}); 
+   leitmem engine(m_time_probe, m_flipcard_store);
+   engine.get_question();
+   
+   // answer: no space after first, only one space after second
+   // no way to match unless keywords are trimmed
+   bool correct = engine.submit_answer("Harrison Ford, Rutger Hauer");
+   
+   ASSERT_TRUE(correct);
+}
+
+TEST_F(fixture_leitmem_logic, answer_recognition_word_order_of_keyword_itself_matters) 
+{
+      add_flipcard(m_flipcards,
+         "What book was Blade Runner based on?",
+         "Blade Runner was based on a book Do Androids Dream of Electric Sheep by Philip K. Dick.",
+         {"Do Androids Dream of Electric Sheep"}); 
+   leitmem engine(m_time_probe, m_flipcard_store);
+   engine.get_question();
+   
+   bool correct = engine.submit_answer("Do Electric Sheep Dream of Androids?");
+   
+   ASSERT_FALSE(correct);
+}
+
 TEST_F(fixture_leitmem_logic, answer_recognition_incorrect_keyword) 
 {
    add_question_1();

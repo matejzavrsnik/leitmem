@@ -13,11 +13,13 @@
     </logicalFolder>
     <itemPath>Makefile</itemPath>
     <itemPath>leitmem_answer_recognition.cpp</itemPath>
+    <itemPath>leitmem_correct_answer.cpp</itemPath>
     <itemPath>leitmem_fixture.h</itemPath>
-    <itemPath>leitmem_flipcards_interaction.cpp</itemPath>
+    <itemPath>leitmem_incorrect_answer.cpp</itemPath>
     <itemPath>leitmem_logic.cpp</itemPath>
     <itemPath>leitmem_progression.cpp</itemPath>
     <itemPath>leitmem_questions_left.cpp</itemPath>
+    <itemPath>leitmem_store_edges.cpp</itemPath>
     <itemPath>main.cpp</itemPath>
     <itemPath>mock_flipcard_store.h</itemPath>
     <itemPath>mock_time_probe.h</itemPath>
@@ -218,21 +220,37 @@
                             perm="755"
                             owner="root"
                             group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/libleitmem_lib.so"
+                            from="${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libleitmem_lib.so"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
         </packFileList>
       </packaging>
       <item path="Makefile" ex="false" tool="3" flavor2="0">
       </item>
       <item path="leitmem_answer_recognition.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="leitmem_correct_answer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="leitmem_fixture.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="leitmem_flipcards_interaction.cpp" ex="false" tool="1" flavor2="0">
+      <item path="leitmem_incorrect_answer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="leitmem_logic.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="leitmem_progression.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="leitmem_questions_left.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="leitmem_store_edges.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
@@ -301,15 +319,19 @@
       </item>
       <item path="leitmem_answer_recognition.cpp" ex="false" tool="1" flavor2="0">
       </item>
+      <item path="leitmem_correct_answer.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="leitmem_fixture.h" ex="false" tool="3" flavor2="0">
       </item>
-      <item path="leitmem_flipcards_interaction.cpp" ex="false" tool="1" flavor2="0">
+      <item path="leitmem_incorrect_answer.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="leitmem_logic.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="leitmem_progression.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="leitmem_questions_left.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="leitmem_store_edges.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>

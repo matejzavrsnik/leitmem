@@ -11,6 +11,30 @@ using namespace ::testing;
 
 // TODO: new feature: verbatim answer for phrases
 
+TEST_F(fixture_leitmem_logic, nullptr_questions_yields_no_more_questions) 
+{
+   NiceMock<mock_flipcard_store> store; 
+   ON_CALL(store, load())
+      .WillByDefault(Return(nullptr));   
+   leitmem engine(m_time_probe, store);
+   
+   std::string_view question = engine.get_question();
+   
+   ASSERT_EQ(question, "No more questions.");
+}
+
+TEST_F(fixture_leitmem_logic, zero_questions_yields_no_more_questions) 
+{
+   NiceMock<mock_flipcard_store> store; 
+   ON_CALL(store, load())
+      .WillByDefault(Return(std::make_shared<mzlib::ds::node>()));
+   leitmem engine(m_time_probe, store);
+   
+   std::string_view question = engine.get_question();
+   
+   ASSERT_EQ(question, "No more questions.");
+}
+
 TEST_F(fixture_leitmem_logic, can_get_question) 
 {
    add_question_1();     

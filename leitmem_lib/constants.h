@@ -12,6 +12,7 @@ static const std::string_view tag_level    = "level";
 
 static const std::string_view value_never       = "never";
 static const std::string_view value_date_format = "%Y %m %d %H:%M";
+static const std::string_view value_keywords_separator = ",";
 
 static const std::vector levels = {"0","1","2","4","8","16","32"};
 

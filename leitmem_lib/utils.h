@@ -15,7 +15,7 @@ answer_is_similar_to_displayed(
    std::string_view display);
 
 bool
-evaluate_by_keywords(
+evaluate_keywords(
    std::string_view answer, 
    std::shared_ptr<mzlib::ds::node> flipcard);
 

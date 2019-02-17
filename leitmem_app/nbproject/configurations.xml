@@ -14,6 +14,7 @@
     <itemPath>Makefile</itemPath>
     <itemPath>main.cpp</itemPath>
     <itemPath>rome.xml</itemPath>
+    <itemPath>vocabulary.xml</itemPath>
   </logicalFolder>
   <projectmakefile>Makefile</projectmakefile>
   <confs>
@@ -137,6 +138,18 @@
                             perm="755"
                             owner="root"
                             group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/libleitmem_lib.so"
+                            from="${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libleitmem_lib.so"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
+          <packFileListElem type="File"
+                            to="${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}"
+                            from="${OUTPUT_PATH}"
+                            perm="755"
+                            owner="root"
+                            group="bin"/>
         </packFileList>
       </packaging>
       <item path="Makefile" ex="false" tool="3" flavor2="0">
@@ -144,6 +157,8 @@
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="rome.xml" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="vocabulary.xml" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -205,6 +220,8 @@
       <item path="main.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="rome.xml" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="vocabulary.xml" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>

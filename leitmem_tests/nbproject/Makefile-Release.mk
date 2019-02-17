@@ -35,7 +35,11 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/leitmem_answer_recognition.o \
+	${OBJECTDIR}/leitmem_flipcards_interaction.o \
 	${OBJECTDIR}/leitmem_logic.o \
+	${OBJECTDIR}/leitmem_progression.o \
+	${OBJECTDIR}/leitmem_questions_left.o \
 	${OBJECTDIR}/main.o
 
 
@@ -65,10 +69,30 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/leitmem_tests: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/leitmem_tests ${OBJECTFILES} ${LDLIBSOPTIONS}
 
+${OBJECTDIR}/leitmem_answer_recognition.o: leitmem_answer_recognition.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I../leitmem_lib -I../../mzlib/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem_answer_recognition.o leitmem_answer_recognition.cpp
+
+${OBJECTDIR}/leitmem_flipcards_interaction.o: leitmem_flipcards_interaction.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I../leitmem_lib -I../../mzlib/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem_flipcards_interaction.o leitmem_flipcards_interaction.cpp
+
 ${OBJECTDIR}/leitmem_logic.o: leitmem_logic.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -I../leitmem_lib -I../../mzlib/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem_logic.o leitmem_logic.cpp
+
+${OBJECTDIR}/leitmem_progression.o: leitmem_progression.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I../leitmem_lib -I../../mzlib/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem_progression.o leitmem_progression.cpp
+
+${OBJECTDIR}/leitmem_questions_left.o: leitmem_questions_left.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I../leitmem_lib -I../../mzlib/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem_questions_left.o leitmem_questions_left.cpp
 
 ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}

@@ -50,11 +50,11 @@ TEST_F(fixture_leitmem_logic, answer_recognition_keywords_order_does_not_matters
 
 TEST_F(fixture_leitmem_logic, answer_recognition_keywords_trimmed_of_spaces) 
 {
-      add_flipcard(m_flipcards,
-         "Blade Runner cast?",
-         "Main actors were Harrison Ford and Rutger Hauer.",
-         // keywords: space after first, two spaces before second
-         {"Harrison Ford ,  Rutger Hauer"}); 
+   add_flipcard(m_flipcards,
+      "Blade Runner cast?",
+      "Main actors were Harrison Ford and Rutger Hauer.",
+      // keywords: space after first, two spaces before second
+      {"Harrison Ford ,  Rutger Hauer"}); 
    leitmem engine(m_time_probe, m_flipcard_store);
    engine.get_question();
    

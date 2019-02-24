@@ -54,7 +54,7 @@
             <pElem>/usr/lib64/libxml++-2.6/include</pElem>
             <pElem>../../mzlib/include</pElem>
           </incDir>
-          <commandLine>-Wall -Wextra -Wpedantic -std=c++17</commandLine>
+          <commandLine>-Wall -Wextra -Wpedantic -std=c++2a</commandLine>
         </ccTool>
       </compileType>
       <item path="constants.h" ex="false" tool="3" flavor2="0">
@@ -99,7 +99,7 @@
             <pElem>/usr/lib64/libxml++-2.6/include</pElem>
             <pElem>../../mzlib/include</pElem>
           </incDir>
-          <commandLine>-Wall -Wextra -Wpedantic -std=c++17</commandLine>
+          <commandLine>-Wall -Wextra -Wpedantic -std=c++2a</commandLine>
         </ccTool>
         <fortranCompilerTool>
           <developmentMode>5</developmentMode>

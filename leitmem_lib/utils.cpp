@@ -4,10 +4,14 @@
 #include "string/case.h"
 #include "string/are_substrings.h"
 #include "string/split.h"
+#include "string/trim.h"
 #include "tools/wagner_fischer_distance.h"
 #include "tools/time_probe.h"
 #include "tools/time_operations.h"
 #include "iterators/is_last.h"
+
+#include <cctype>
+#include <algorithm>
 
 using namespace std;
 using namespace mzlib;
@@ -32,10 +36,19 @@ evaluate_keywords(
    
    for(auto keyword_node : keywords_nodes)
    {
-      auto split_keywords = 
+      std::vector<std::string_view> split_keywords = 
          mzlib::split(
             keyword_node->value(), 
             value_keywords_separator);
+
+      std::transform(
+         split_keywords.begin(), 
+         split_keywords.end(), 
+         split_keywords.begin(),
+         [](std::string_view keyword) {
+            int (*p)(int) = isspace; // why is this necessary?
+            return mzlib::trim(keyword, p);
+         });
       
       if (mzlib::all_are_substrings_ci(
          answer, 

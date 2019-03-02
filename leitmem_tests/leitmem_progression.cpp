@@ -121,7 +121,7 @@ TEST_F(fixture_leitmem_logic, when_lots_of_questions_available_prioritisea_alrea
 {
    add_question_1();
    add_question_2();
-   leitmem engine(m_time_probe, m_flipcard_store);
+   leitmem engine(m_time_probe, m_flipcard_store, 1);
    engine.set_workset_size(1);
    auto question = engine.get_question();
    
@@ -135,7 +135,7 @@ TEST_F(fixture_leitmem_logic, when_lots_of_questions_available_continue_when_all
 {
    add_question_1();
    add_question_2();
-   leitmem engine(m_time_probe, m_flipcard_store);
+   leitmem engine(m_time_probe, m_flipcard_store, 1);
    engine.set_workset_size(1);   
    auto question = engine.get_question();
    

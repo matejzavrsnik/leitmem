@@ -11,6 +11,7 @@ static const std::string_view tag_keywords = "keywords";
 static const std::string_view tag_level    = "level";
 
 static const std::string_view value_incorrectly        = "incorrectly";
+static const std::string_view value_neverasked         = "neverasked";
 static const std::string_view value_date_format        = "%Y %m %d %H:%M";
 static const std::string_view value_keywords_separator = ",";
 

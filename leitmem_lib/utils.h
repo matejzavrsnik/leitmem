@@ -59,6 +59,10 @@ ask_today(
    mzlib::ds::pnode flipcard,
    mzlib::time_probe_interface& time_probe);
 
+bool
+never_asked(
+   mzlib::ds::pnode flipcard);
+
 std::string_view 
 get_question_from_flipcard(
    mzlib::ds::pnode flipcard);

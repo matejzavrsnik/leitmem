@@ -9,8 +9,6 @@
 
 using namespace ::testing;
 
-// TODO: new feature: verbatim answer for phrases
-
 TEST_F(fixture_leitmem_logic, nullptr_questions_yields_no_more_questions) 
 {
    NiceMock<mock_flipcard_store> store; 

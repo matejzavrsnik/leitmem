@@ -130,7 +130,9 @@ mark_never_answered(
    ds::add_or_edit_attribute(flipcard, tag_answered, value_incorrectly);
 }
 
-bool never_answered_correctly(mzlib::ds::pnode flipcard)
+bool
+never_answered_correctly(
+   mzlib::ds::pnode flipcard)
 {
    std::string_view answered = 
       ds::get_attribute(
@@ -138,10 +140,11 @@ bool never_answered_correctly(mzlib::ds::pnode flipcard)
          tag_answered)
             ->value();
 
-   return (answered.empty() || answered == value_incorrectly);
+   return (answered == value_incorrectly);
 }
 
-bool enough_days_passed(
+bool 
+enough_days_passed(
    mzlib::ds::pnode flipcard, 
    time_probe_interface& time_probe)
 {
@@ -150,6 +153,11 @@ bool enough_days_passed(
          flipcard, 
          tag_answered)
             ->value();
+   
+   // if never attempted to answer yet it shouldn't imply 
+   // that it was a long time since the last answer.
+   if (answered.empty())
+      return false;
    
    std::tm when_aswered = convert_from_string(
       answered, 
@@ -177,6 +185,19 @@ ask_today(
       return true;
 
    return false;
+}
+
+bool
+never_asked(
+   mzlib::ds::pnode flipcard)
+{
+   std::string_view answered = 
+      ds::get_attribute(
+         flipcard, 
+         tag_answered)
+            ->value();
+
+   return (answered.empty() || answered == value_neverasked);
 }
 
 bool

@@ -6,21 +6,26 @@
 #include "tools/relocate.h"
 
 #include <sstream>
+#include <algorithm>
 
 using namespace std;
 using namespace mzlib;
 
 leitmem::leitmem(
    time_probe_interface& time_probe,
-   flipcards_store_interface& flipcard_store) :
+   flipcards_store_interface& flipcard_store,
+   int workset_size) :
       m_time_probe(time_probe),
       m_flipcard_store(flipcard_store),
-      m_workset_size(10),
+      m_workset_size(workset_size),
       m_flipcards(m_flipcard_store.load())
 {          
    if (m_flipcards)
+   {
       sort_flipcards(m_flipcards->nodes());
-   //debug_print(m_flipcards->nodes());
+      //debug_print(m_flipcards->nodes());
+      top_up_ask_today();
+   }
 }
 
 int leitmem::questions_left()
@@ -30,15 +35,20 @@ int leitmem::questions_left()
 
 string_view leitmem::get_question()
 {             
+   // Reconsider flipcards that were at first decided not to be asked today. 
+   // Time has passed since then, some of the "laters" might have become "today"
+   // in the meanwhile. Pull those into today.
    sort_flipcards(m_ask_later);
    
-   // when all todays questions are answered, correctly or not,
+   // When all todays questions are answered, correctly or not,
    // continue with ones that were answered incorrectly.
    if (m_ask_today.empty())
       m_ask_today.swap(m_ask_today_after);
    
-   //if (m_ask_today.size() < m_workset_size)
-   //   fill_up_ask_today();
+   // If all questions due to be asked today do not add up to a
+   // configured working set size, pull in some of the questions
+   // that were never asked before.
+   top_up_ask_today();
       
    if (m_ask_today.empty())
       return "No more questions.";
@@ -86,25 +96,55 @@ void leitmem::save_knowledge()
 
 void leitmem::sort_flipcards(const std::vector<mzlib::ds::pnode>& flipcards)
 {          
-   std::vector<mzlib::ds::pnode> new_ask_later;
+   std::vector<mzlib::ds::pnode> ask_later;
    
    for (auto& flipcard : flipcards) 
    {
+      //todo: test when answered="garbage"
       if (!is_valid_flipcard(flipcard)) 
          continue;
       
-      if (ask_today(flipcard, m_time_probe)) 
-      {
+      if (ask_today(flipcard, m_time_probe)) {
          m_ask_today.push_back(flipcard);
       }
+      else if (never_asked(flipcard)) {
+         m_never_asked.push_back(flipcard);
+      }
       else {
-         new_ask_later.push_back(flipcard);
+         ask_later.push_back(flipcard);
       }
    }
    
-   //fill_up_ask_today();
+   m_ask_later.swap(ask_later);
+}
+
+template<typename Function>
+void repeat_n_times(int times, Function fun)
+{
+   for(int i=0; i<times; ++i) fun();
+}
+
+void leitmem::top_up_ask_today()
+{
+   size_t how_many = m_workset_size - questions_left();
    
-   m_ask_later.swap(new_ask_later);
+   how_many = std::clamp(how_many, (size_t)0, m_never_asked.size());
+   
+   if (how_many > 0)
+   {
+      repeat_n_times (how_many,
+         [this](){
+            mzlib::ds::pnode never_asked_flipcard = 
+               *get_random_element(
+                  m_never_asked.begin(), 
+                  m_never_asked.end());
+            
+            relocate(
+               never_asked_flipcard, 
+               m_never_asked, 
+               m_ask_today);
+         });
+   }
 }
 
 void leitmem::correctly_answered(ds::pnode flipcard)

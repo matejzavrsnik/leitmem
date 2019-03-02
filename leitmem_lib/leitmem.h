@@ -15,8 +15,7 @@ public:
    
    leitmem(
       mzlib::time_probe_interface&,
-      flipcards_store_interface&,
-      int workset_size = 15); // todo: remove later
+      flipcards_store_interface&);
    
    int questions_left();
    std::string_view get_question();
@@ -41,7 +40,8 @@ private:
    std::vector<mzlib::ds::pnode> m_ask_later; // scheduled for some other day
    std::vector<mzlib::ds::pnode> m_never_asked; // never asked yet
 
-   void sort_flipcards(const std::vector<mzlib::ds::pnode>& flipcards);
+   void sort_flipcards();
+   void pull_from_later();
    void top_up_ask_today();
    
    void correctly_answered(mzlib::ds::pnode flipcard);

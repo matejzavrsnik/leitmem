@@ -13,16 +13,15 @@ using namespace mzlib;
 
 leitmem::leitmem(
    time_probe_interface& time_probe,
-   flipcards_store_interface& flipcard_store,
-   int workset_size) :
+   flipcards_store_interface& flipcard_store) :
       m_time_probe(time_probe),
       m_flipcard_store(flipcard_store),
-      m_workset_size(workset_size),
+      m_workset_size(15),
       m_flipcards(m_flipcard_store.load())
 {          
    if (m_flipcards)
    {
-      sort_flipcards(m_flipcards->nodes());
+      sort_flipcards();
       //debug_print(m_flipcards->nodes());
       top_up_ask_today();
    }
@@ -36,9 +35,8 @@ int leitmem::questions_left()
 string_view leitmem::get_question()
 {             
    // Reconsider flipcards that were at first decided not to be asked today. 
-   // Time has passed since then, some of the "laters" might have become "today"
-   // in the meanwhile. Pull those into today.
-   sort_flipcards(m_ask_later);
+   // Time has passed, some of the "laters" might have become "todays".
+   pull_from_later();
    
    // When all todays questions are answered, correctly or not,
    // continue with ones that were answered incorrectly.
@@ -87,6 +85,7 @@ bool leitmem::submit_answer(string_view answer)
 void leitmem::set_workset_size(int workset_size)
 {
    m_workset_size = workset_size;
+   sort_flipcards();
 }
 
 void leitmem::save_knowledge()
@@ -94,11 +93,13 @@ void leitmem::save_knowledge()
    m_flipcard_store.save(m_flipcards);
 }
 
-void leitmem::sort_flipcards(const std::vector<mzlib::ds::pnode>& flipcards)
+void leitmem::sort_flipcards()
 {          
-   std::vector<mzlib::ds::pnode> ask_later;
+   m_ask_today.clear();
+   m_never_asked.clear();
+   m_ask_later.clear();
    
-   for (auto& flipcard : flipcards) 
+   for (auto& flipcard : m_flipcards->nodes()) 
    {
       //todo: test when answered="garbage"
       if (!is_valid_flipcard(flipcard)) 
@@ -111,11 +112,18 @@ void leitmem::sort_flipcards(const std::vector<mzlib::ds::pnode>& flipcards)
          m_never_asked.push_back(flipcard);
       }
       else {
-         ask_later.push_back(flipcard);
+         m_ask_later.push_back(flipcard);
       }
    }
-   
-   m_ask_later.swap(ask_later);
+}
+
+void leitmem::pull_from_later()
+{
+   for (auto& flipcard : m_ask_later) {
+      if (ask_today(flipcard, m_time_probe)) {
+         relocate(flipcard, m_ask_later, m_ask_today);
+      }
+   }
 }
 
 template<typename Function>

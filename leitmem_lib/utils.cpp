@@ -127,7 +127,7 @@ void
 mark_never_answered(
    mzlib::ds::pnode flipcard)
 {
-   ds::add_or_edit_attribute(flipcard, tag_answered, value_never);
+   ds::add_or_edit_attribute(flipcard, tag_answered, value_incorrectly);
 }
 
 bool never_answered_correctly(mzlib::ds::pnode flipcard)
@@ -138,7 +138,7 @@ bool never_answered_correctly(mzlib::ds::pnode flipcard)
          tag_answered)
             ->value();
 
-   return (answered.empty() || answered == value_never);
+   return (answered.empty() || answered == value_incorrectly);
 }
 
 bool enough_days_passed(

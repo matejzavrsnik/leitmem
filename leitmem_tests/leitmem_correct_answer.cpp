@@ -57,7 +57,7 @@ TEST_F(fixture_leitmem_logic, on_correct_answer_updates_attribute_date)
 {
    add_question_1();
    auto flipcard = mzlib::ds::first(m_flipcards->nodes(), tag_flipcard);
-   mzlib::ds::add_or_edit_attribute(flipcard, tag_answered, value_never);
+   mzlib::ds::add_or_edit_attribute(flipcard, tag_answered, value_incorrectly);
    leitmem engine(m_time_probe, m_flipcard_store);
    engine.get_question();
    

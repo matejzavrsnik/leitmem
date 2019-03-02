@@ -15,6 +15,7 @@ leitmem::leitmem(
    flipcards_store_interface& flipcard_store) :
       m_time_probe(time_probe),
       m_flipcard_store(flipcard_store),
+      m_workset_size(10),
       m_flipcards(m_flipcard_store.load())
 {          
    if (m_flipcards)
@@ -31,8 +32,13 @@ string_view leitmem::get_question()
 {             
    sort_flipcards(m_ask_later);
    
+   // when all todays questions are answered, correctly or not,
+   // continue with ones that were answered incorrectly.
    if (m_ask_today.empty())
       m_ask_today.swap(m_ask_today_after);
+   
+   //if (m_ask_today.size() < m_workset_size)
+   //   fill_up_ask_today();
       
    if (m_ask_today.empty())
       return "No more questions.";
@@ -68,6 +74,11 @@ bool leitmem::submit_answer(string_view answer)
    return false;
 }
 
+void leitmem::set_workset_size(int workset_size)
+{
+   m_workset_size = workset_size;
+}
+
 void leitmem::save_knowledge()
 {
    m_flipcard_store.save(m_flipcards);
@@ -79,17 +90,19 @@ void leitmem::sort_flipcards(const std::vector<mzlib::ds::pnode>& flipcards)
    
    for (auto& flipcard : flipcards) 
    {
-      if (is_valid_flipcard(flipcard)) 
+      if (!is_valid_flipcard(flipcard)) 
+         continue;
+      
+      if (ask_today(flipcard, m_time_probe)) 
       {
-         if (ask_today(flipcard, m_time_probe)) 
-         {
-            m_ask_today.push_back(flipcard);
-         }
-         else {
-            new_ask_later.push_back(flipcard);
-         }
+         m_ask_today.push_back(flipcard);
+      }
+      else {
+         new_ask_later.push_back(flipcard);
       }
    }
+   
+   //fill_up_ask_today();
    
    m_ask_later.swap(new_ask_later);
 }

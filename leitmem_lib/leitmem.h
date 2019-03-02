@@ -22,18 +22,23 @@ public:
    std::string_view get_answer();
    bool submit_answer(std::string_view answer);
    
+   void set_workset_size(int workset_size);
+   
    void save_knowledge();
 
 private:
    
    mzlib::time_probe_interface& m_time_probe;
    flipcards_store_interface& m_flipcard_store;
-   mzlib::ds::pnode m_flipcards;
+   int m_workset_size;
    
-   mzlib::ds::pnode m_being_asked;
-   std::vector<mzlib::ds::pnode> m_ask_today;
-   std::vector<mzlib::ds::pnode> m_ask_today_after;
-   std::vector<mzlib::ds::pnode> m_ask_later;
+   mzlib::ds::pnode m_flipcards;  // all flipcards
+   
+   mzlib::ds::pnode m_being_asked; // currently out
+   std::vector<mzlib::ds::pnode> m_ask_today; // to ask immediately
+   std::vector<mzlib::ds::pnode> m_ask_today_after; // asked already, got wrong answer
+   std::vector<mzlib::ds::pnode> m_ask_later; // scheduled for some other day
+   std::vector<mzlib::ds::pnode> m_never_asked; // never asked yet
 
    void sort_flipcards(const std::vector<mzlib::ds::pnode>& flipcards);
    

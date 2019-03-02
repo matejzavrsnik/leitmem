@@ -34,7 +34,7 @@ TEST_F(fixture_leitmem_logic, on_incorrect_answer_adds_attribute_date)
    
    auto flipcard = mzlib::ds::first(m_flipcards->nodes(), tag_flipcard);
    auto answered = mzlib::ds::get_attribute(flipcard, tag_answered)->value();
-   ASSERT_EQ(answered, value_never);
+   ASSERT_EQ(answered, value_incorrectly);
 }
 
 TEST_F(fixture_leitmem_logic, on_incorrect_answer_updates_attribute_level) 
@@ -86,5 +86,5 @@ TEST_F(fixture_leitmem_logic, on_incorrect_answer_updates_attribute_date)
    
    flipcard = mzlib::ds::first(m_flipcards->nodes(), tag_flipcard);
    auto answered = mzlib::ds::get_attribute(flipcard, tag_answered)->value();
-   ASSERT_EQ(answered, value_never);
+   ASSERT_EQ(answered, value_incorrectly);
 }

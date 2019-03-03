@@ -11,23 +11,24 @@ using namespace ::testing;
 
 TEST_F(fixture_leitmem_logic, answer_recognition_correct_keyword) 
 {
-   add_question_1();
+   m_test_questions.add_question_1();
    leitmem engine(m_time_probe, m_flipcard_store);
-   engine.get_question();
+   auto question = engine.get_question();
    
-   bool correct = engine.submit_answer(get_correct_answer(m_question_1));
+   bool correct = engine.submit_answer(
+      m_test_questions.get_correct_keywords(question));
    
    ASSERT_TRUE(correct);
 }
 
 TEST_F(fixture_leitmem_logic, answer_recognition_correct_keyword_ignores_case) 
 {
-   add_question_1();
+   m_test_questions.add_question_1();
    leitmem engine(m_time_probe, m_flipcard_store);
-   engine.get_question();
+   auto question = engine.get_question();
    std::string uppercase_answer = 
       mzlib::to_uppercase_copy<std::string>(
-         get_correct_answer(m_question_1));
+         m_test_questions.get_correct_keywords(question));
    
    bool correct = engine.submit_answer(uppercase_answer);
    
@@ -81,7 +82,7 @@ TEST_F(fixture_leitmem_logic, answer_recognition_word_order_of_keyword_itself_ma
 
 TEST_F(fixture_leitmem_logic, answer_recognition_incorrect_keyword) 
 {
-   add_question_1();
+   m_test_questions.add_question_1();
    leitmem engine(m_time_probe, m_flipcard_store);
    engine.get_question();
    

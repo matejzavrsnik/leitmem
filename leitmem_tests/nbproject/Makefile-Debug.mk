@@ -35,13 +35,13 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
-	${OBJECTDIR}/leitmem_answer_recognition.o \
-	${OBJECTDIR}/leitmem_correct_answer.o \
-	${OBJECTDIR}/leitmem_incorrect_answer.o \
-	${OBJECTDIR}/leitmem_logic.o \
-	${OBJECTDIR}/leitmem_progression.o \
-	${OBJECTDIR}/leitmem_questions_left.o \
-	${OBJECTDIR}/leitmem_store_edges.o \
+	${OBJECTDIR}/leitmem/answer_recognition.o \
+	${OBJECTDIR}/leitmem/logic.o \
+	${OBJECTDIR}/leitmem/on_correct_answer.o \
+	${OBJECTDIR}/leitmem/on_incorrect_answer.o \
+	${OBJECTDIR}/leitmem/progression.o \
+	${OBJECTDIR}/leitmem/questions_left.o \
+	${OBJECTDIR}/leitmem/store_edges.o \
 	${OBJECTDIR}/main.o
 
 
@@ -72,40 +72,40 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/leitmem_tests: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/leitmem_tests ${OBJECTFILES} ${LDLIBSOPTIONS}
 
-${OBJECTDIR}/leitmem_answer_recognition.o: leitmem_answer_recognition.cpp
-	${MKDIR} -p ${OBJECTDIR}
+${OBJECTDIR}/leitmem/answer_recognition.o: leitmem/answer_recognition.cpp
+	${MKDIR} -p ${OBJECTDIR}/leitmem
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../leitmem_lib -I../../mzlib/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem_answer_recognition.o leitmem_answer_recognition.cpp
+	$(COMPILE.cc) -g -I../leitmem_lib -I../../mzlib/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem/answer_recognition.o leitmem/answer_recognition.cpp
 
-${OBJECTDIR}/leitmem_correct_answer.o: leitmem_correct_answer.cpp
-	${MKDIR} -p ${OBJECTDIR}
+${OBJECTDIR}/leitmem/logic.o: leitmem/logic.cpp
+	${MKDIR} -p ${OBJECTDIR}/leitmem
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../leitmem_lib -I../../mzlib/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem_correct_answer.o leitmem_correct_answer.cpp
+	$(COMPILE.cc) -g -I../leitmem_lib -I../../mzlib/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem/logic.o leitmem/logic.cpp
 
-${OBJECTDIR}/leitmem_incorrect_answer.o: leitmem_incorrect_answer.cpp
-	${MKDIR} -p ${OBJECTDIR}
+${OBJECTDIR}/leitmem/on_correct_answer.o: leitmem/on_correct_answer.cpp
+	${MKDIR} -p ${OBJECTDIR}/leitmem
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../leitmem_lib -I../../mzlib/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem_incorrect_answer.o leitmem_incorrect_answer.cpp
+	$(COMPILE.cc) -g -I../leitmem_lib -I../../mzlib/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem/on_correct_answer.o leitmem/on_correct_answer.cpp
 
-${OBJECTDIR}/leitmem_logic.o: leitmem_logic.cpp
-	${MKDIR} -p ${OBJECTDIR}
+${OBJECTDIR}/leitmem/on_incorrect_answer.o: leitmem/on_incorrect_answer.cpp
+	${MKDIR} -p ${OBJECTDIR}/leitmem
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../leitmem_lib -I../../mzlib/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem_logic.o leitmem_logic.cpp
+	$(COMPILE.cc) -g -I../leitmem_lib -I../../mzlib/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem/on_incorrect_answer.o leitmem/on_incorrect_answer.cpp
 
-${OBJECTDIR}/leitmem_progression.o: leitmem_progression.cpp
-	${MKDIR} -p ${OBJECTDIR}
+${OBJECTDIR}/leitmem/progression.o: leitmem/progression.cpp
+	${MKDIR} -p ${OBJECTDIR}/leitmem
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../leitmem_lib -I../../mzlib/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem_progression.o leitmem_progression.cpp
+	$(COMPILE.cc) -g -I../leitmem_lib -I../../mzlib/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem/progression.o leitmem/progression.cpp
 
-${OBJECTDIR}/leitmem_questions_left.o: leitmem_questions_left.cpp
-	${MKDIR} -p ${OBJECTDIR}
+${OBJECTDIR}/leitmem/questions_left.o: leitmem/questions_left.cpp
+	${MKDIR} -p ${OBJECTDIR}/leitmem
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../leitmem_lib -I../../mzlib/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem_questions_left.o leitmem_questions_left.cpp
+	$(COMPILE.cc) -g -I../leitmem_lib -I../../mzlib/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem/questions_left.o leitmem/questions_left.cpp
 
-${OBJECTDIR}/leitmem_store_edges.o: leitmem_store_edges.cpp
-	${MKDIR} -p ${OBJECTDIR}
+${OBJECTDIR}/leitmem/store_edges.o: leitmem/store_edges.cpp
+	${MKDIR} -p ${OBJECTDIR}/leitmem
 	${RM} "$@.d"
-	$(COMPILE.cc) -g -I../leitmem_lib -I../../mzlib/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem_store_edges.o leitmem_store_edges.cpp
+	$(COMPILE.cc) -g -I../leitmem_lib -I../../mzlib/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem/store_edges.o leitmem/store_edges.cpp
 
 ${OBJECTDIR}/main.o: main.cpp
 	${MKDIR} -p ${OBJECTDIR}

@@ -14,8 +14,8 @@
 #include "leitmem.h"
 #include "constants.h"
 
-#include "mock_flipcard_store.h"
-#include "mock_time_probe.h"
+#include "../mocks/mock_flipcard_store.h"
+#include "../mocks/mock_time_probe.h"
 
 #include "tools/tm_calc.h"
 #include "tools/datashelf.h"

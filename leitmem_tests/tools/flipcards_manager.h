@@ -1,6 +1,9 @@
 #ifndef QUESTIONS_MANAGER_H
 #define QUESTIONS_MANAGER_H
 
+#include <vector>
+
+
 inline void prepare_flipcards(
    mzlib::ds::pnode flipcards, 
    std::string_view title)
@@ -24,6 +27,14 @@ inline void add_flipcard(
    }
 }
 
+struct flipcard_data
+{
+   std::string question;
+   std::string answer;
+   std::string keywords;
+   std::string user_answer;
+};
+
 class flipcards_manager
 {
 
@@ -37,7 +48,15 @@ class flipcards_manager
    
    mzlib::ds::pnode m_flipcards;
    
+   std::vector<flipcard_data> m_flipcard_data;
+   
 public:
+   
+   void add_questions(int number)
+   {
+      flipcard_data f;
+      m_flipcard_data.push_back(f);
+   }
    
    void work_on(mzlib::ds::pnode flipcards)
    {

@@ -79,7 +79,7 @@ void ui_cli::submit_answer(string_view answer)
 
 bool ui_cli::should_game_continue()
 {
-   if (m_engine.questions_left() == 0)
+   if (m_engine.questions_today() == 0)
    {
       output("No more questions for today.");
       m_continue_game = false;

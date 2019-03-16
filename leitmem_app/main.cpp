@@ -26,6 +26,7 @@ Usage:
 --knowledge=file.xml  Load knowledge file.xml
 --statistic=...       Display one of selected statistic:
    qt                    number of questions to be asked today
+   qa                    number of questions in the file
 )";
 }
 
@@ -50,7 +51,9 @@ int main(int argc, char** argv)
    if(auto statistic = get_if_exists("statistic"s, cli_arguments))
    {
       if (::mzlib::equal_to(statistic, "qt"_ostr))
-         std::cout << engine.questions_left() << std::endl;
+         std::cout << engine.questions_today() << std::endl;
+      if (::mzlib::equal_to(statistic, "qa"_ostr))
+         std::cout << engine.all_questions() << std::endl;
    }
    // play
    else

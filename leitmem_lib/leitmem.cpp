@@ -27,9 +27,20 @@ leitmem::leitmem(
    }
 }
 
-int leitmem::questions_left()
+int leitmem::questions_today()
 {
-   return m_ask_today.size() + m_ask_today_after.size();
+   return 
+      m_ask_today.size() + 
+      m_ask_today_after.size();
+}
+
+int leitmem::all_questions()
+{
+   return 
+      m_ask_today.size() +
+      m_ask_today_after.size() +
+      m_ask_later.size() +
+      m_never_asked.size();
 }
 
 string_view leitmem::get_question()
@@ -134,7 +145,7 @@ void repeat_n_times(int times, Function fun)
 
 void leitmem::top_up_ask_today()
 {
-   size_t how_many = m_workset_size - questions_left();
+   size_t how_many = m_workset_size - questions_today();
    
    how_many = std::clamp(how_many, (size_t)0, m_never_asked.size());
    

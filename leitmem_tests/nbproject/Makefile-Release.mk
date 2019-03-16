@@ -35,6 +35,7 @@ OBJECTDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}
 
 # Object Files
 OBJECTFILES= \
+	${OBJECTDIR}/leitmem/all_questions.o \
 	${OBJECTDIR}/leitmem/answer_recognition.o \
 	${OBJECTDIR}/leitmem/logic.o \
 	${OBJECTDIR}/leitmem/on_correct_answer.o \
@@ -70,6 +71,11 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/leitmem_tests: ../leitmem_lib/dist/Re
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/leitmem_tests: ${OBJECTFILES}
 	${MKDIR} -p ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 	${LINK.cc} -o ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/leitmem_tests ${OBJECTFILES} ${LDLIBSOPTIONS}
+
+${OBJECTDIR}/leitmem/all_questions.o: leitmem/all_questions.cpp
+	${MKDIR} -p ${OBJECTDIR}/leitmem
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -I../leitmem_lib -I../../mzlib/include -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem/all_questions.o leitmem/all_questions.cpp
 
 ${OBJECTDIR}/leitmem/answer_recognition.o: leitmem/answer_recognition.cpp
 	${MKDIR} -p ${OBJECTDIR}/leitmem

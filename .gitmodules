@@ -1,0 +1,3 @@
+[submodule "3rdparty/mzlib"]
+	path = 3rdparty/mzlib
+	url = https://github.com/matejzavrsnik/mzlib.git

@@ -52,7 +52,7 @@
             <pElem>/usr/lib64/glibmm-2.4/include</pElem>
             <pElem>/usr/include/libxml++-2.6</pElem>
             <pElem>/usr/lib64/libxml++-2.6/include</pElem>
-            <pElem>../../mzlib/include</pElem>
+            <pElem>../3rdparty/mzlib/include</pElem>
           </incDir>
           <commandLine>-Wall -Wextra -Wpedantic -std=c++2a</commandLine>
         </ccTool>
@@ -97,7 +97,7 @@
             <pElem>/usr/lib64/glibmm-2.4/include</pElem>
             <pElem>/usr/include/libxml++-2.6</pElem>
             <pElem>/usr/lib64/libxml++-2.6/include</pElem>
-            <pElem>../../mzlib/include</pElem>
+            <pElem>../3rdparty/mzlib/include</pElem>
           </incDir>
           <commandLine>-Wall -Wextra -Wpedantic -std=c++2a</commandLine>
         </ccTool>

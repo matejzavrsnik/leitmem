@@ -68,22 +68,22 @@ ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libleitmem_lib.${CND_DLIB_EXT}: ${OBJ
 ${OBJECTDIR}/flipcards_from_xml_file.o: flipcards_from_xml_file.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/glibmm-2.4 -I/usr/lib64/glibmm-2.4/include -I/usr/include/libxml++-2.6 -I/usr/lib64/libxml++-2.6/include -I../../mzlib/include -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/flipcards_from_xml_file.o flipcards_from_xml_file.cpp
+	$(COMPILE.cc) -O2 -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/glibmm-2.4 -I/usr/lib64/glibmm-2.4/include -I/usr/include/libxml++-2.6 -I/usr/lib64/libxml++-2.6/include -I../3rdparty/mzlib/include -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/flipcards_from_xml_file.o flipcards_from_xml_file.cpp
 
 ${OBJECTDIR}/leitmem.o: leitmem.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/glibmm-2.4 -I/usr/lib64/glibmm-2.4/include -I/usr/include/libxml++-2.6 -I/usr/lib64/libxml++-2.6/include -I../../mzlib/include -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem.o leitmem.cpp
+	$(COMPILE.cc) -O2 -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/glibmm-2.4 -I/usr/lib64/glibmm-2.4/include -I/usr/include/libxml++-2.6 -I/usr/lib64/libxml++-2.6/include -I../3rdparty/mzlib/include -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/leitmem.o leitmem.cpp
 
 ${OBJECTDIR}/ui_cli.o: ui_cli.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/glibmm-2.4 -I/usr/lib64/glibmm-2.4/include -I/usr/include/libxml++-2.6 -I/usr/lib64/libxml++-2.6/include -I../../mzlib/include -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ui_cli.o ui_cli.cpp
+	$(COMPILE.cc) -O2 -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/glibmm-2.4 -I/usr/lib64/glibmm-2.4/include -I/usr/include/libxml++-2.6 -I/usr/lib64/libxml++-2.6/include -I../3rdparty/mzlib/include -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/ui_cli.o ui_cli.cpp
 
 ${OBJECTDIR}/utils.o: utils.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
-	$(COMPILE.cc) -O2 -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/glibmm-2.4 -I/usr/lib64/glibmm-2.4/include -I/usr/include/libxml++-2.6 -I/usr/lib64/libxml++-2.6/include -I../../mzlib/include -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/utils.o utils.cpp
+	$(COMPILE.cc) -O2 -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/glibmm-2.4 -I/usr/lib64/glibmm-2.4/include -I/usr/include/libxml++-2.6 -I/usr/lib64/libxml++-2.6/include -I../3rdparty/mzlib/include -fPIC  -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/utils.o utils.cpp
 
 # Subprojects
 .build-subprojects:

@@ -50,8 +50,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-Wall -Wextra -Wpedantic -std=c++2a
-CXXFLAGS=-Wall -Wextra -Wpedantic -std=c++2a
+CCFLAGS=-Wall -Wextra -Wpedantic -std=c++2a -fconcepts
+CXXFLAGS=-Wall -Wextra -Wpedantic -std=c++2a -fconcepts
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -60,7 +60,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-Wl,-rpath,'../leitmem_lib/dist/Debug/GNU-Linux' -L../leitmem_lib/dist/Debug/GNU-Linux -lleitmem_lib -lxml++-2.6 -lgmock -lgtest
+LDLIBSOPTIONS=-Wl,-rpath,'../leitmem_lib/dist/Debug/GNU-Linux' -L../leitmem_lib/dist/Debug/GNU-Linux -lleitmem_lib -lxml++-3.0 -lgmock -lgtest
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}

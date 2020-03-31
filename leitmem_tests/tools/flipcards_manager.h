@@ -52,7 +52,7 @@ class flipcards_manager
    
 public:
    
-   void add_questions(int number)
+   void add_questions()
    {
       flipcard_data f;
       m_flipcard_data.push_back(f);

@@ -42,8 +42,8 @@ OBJECTFILES= \
 CFLAGS=
 
 # CC Compiler Flags
-CCFLAGS=-Wall -Wextra -Wpedantic -std=c++2a
-CXXFLAGS=-Wall -Wextra -Wpedantic -std=c++2a
+CCFLAGS=-Wall -Wextra -Wpedantic -std=c++2a -fconcepts
+CXXFLAGS=-Wall -Wextra -Wpedantic -std=c++2a -fconcepts
 
 # Fortran Compiler Flags
 FFLAGS=
@@ -52,7 +52,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lxml++-2.6 -Wl,-rpath,'../leitmem_lib/dist/Release/GNU-Linux' -L../leitmem_lib/dist/Release/GNU-Linux -lleitmem_lib
+LDLIBSOPTIONS=-lxml++-3.0 -Wl,-rpath,'../leitmem_lib/dist/Release/GNU-Linux' -L../leitmem_lib/dist/Release/GNU-Linux -lleitmem_lib
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}

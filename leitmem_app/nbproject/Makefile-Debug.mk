@@ -52,7 +52,7 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lxml++-3.0 -Wl,-rpath,'../leitmem_lib/dist/Debug/GNU-Linux' -L../leitmem_lib/dist/Debug/GNU-Linux -lleitmem_lib
+LDLIBSOPTIONS=-lxml++-3.0 -lboost_program_options -Wl,-rpath,'$$ORIGIN/../../../../leitmem_lib/dist/Debug/GNU-Linux' -L../leitmem_lib/dist/Debug/GNU-Linux -lleitmem_lib
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}

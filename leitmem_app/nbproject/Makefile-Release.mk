@@ -52,11 +52,12 @@ FFLAGS=
 ASFLAGS=
 
 # Link Libraries and Options
-LDLIBSOPTIONS=-lxml++-3.0 -Wl,-rpath,'../leitmem_lib/dist/Release/GNU-Linux' -L../leitmem_lib/dist/Release/GNU-Linux -lleitmem_lib
+LDLIBSOPTIONS=-lxml++-3.0 -lboost_program_options -Wl,-rpath,'$$ORIGIN/../../../../leitmem_lib/dist/Release/GNU-Linux' -L../leitmem_lib/dist/Release/GNU-Linux -lleitmem_lib
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
 	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/leitmem_app
+	${CP} ../leitmem_lib/dist/Release/GNU-Linux/libleitmem_lib.so ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}
 
 ${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/leitmem_app: ../leitmem_lib/dist/Release/GNU-Linux/libleitmem_lib.so
 

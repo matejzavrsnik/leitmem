@@ -9,60 +9,67 @@
 #include "tools/get_if_exists.h"
 #include "lang/optionally_functional.h"
 
+#include <boost/program_options.hpp>
+
 #include <iostream>
 #include <string_view>
 #include <optional>
 
 using namespace mzlib;
 using namespace std;
-
-
-void display_help()
-{
-   std::cout << 
-R"(
-Usage:
-           
---knowledge=file.xml  Load knowledge file.xml
---statistic=...       Display one of selected statistic:
-   qt                    number of questions to be asked today
-   qa                    number of questions in the file
-)";
-}
+using namespace boost::program_options;
 
 int main(int argc, char** argv) 
 {
-   locale::global(std::locale(""));
-   std::map<std::string, std::string> cli_arguments = parse_arguments(argc, argv);
-   
-   auto knowledge = get_if_exists("knowledge"s, cli_arguments);
-   if (!knowledge)
-   {
-      display_help();
-      return 1;
-   }
+   string knowledge;
+   bool qt, qa;
 
-   flipcards_from_xml_file flipcard_store(*knowledge);
-   
-   mzlib::time_probe time_probe;
-   leitmem engine(time_probe, flipcard_store);
-   
-   // stat: questions for this session
-   if(auto statistic = get_if_exists("statistic"s, cli_arguments))
-   {
-      if (::mzlib::equal_to(statistic, "qt"_ostr))
+   options_description cli("Usage");
+   cli.add_options()
+      ("knowledge", value(&knowledge)->required(), 
+         "knowledge file to use in this session")
+      ("qt", bool_switch(&qt),
+         "displays how many questions to be asked today")
+      ("qa", bool_switch(&qa),
+         "displays how many questions are in the file");
+      
+   try 
+   { 
+      locale::global(std::locale(""));
+
+      variables_map vm;
+      store(parse_command_line(argc, argv, cli), vm);
+
+      notify(vm);
+
+      flipcards_from_xml_file flipcard_store(knowledge);
+
+      mzlib::time_probe time_probe;
+      leitmem engine(time_probe, flipcard_store);
+
+      if(qt) // return information
+      {
          std::cout << engine.questions_today() << std::endl;
-      if (::mzlib::equal_to(statistic, "qa"_ostr))
-         std::cout << engine.all_questions() << std::endl;
-   }
-   // play
-   else
-   {
-      std::cout << "Knowledge file: " << *knowledge << std::endl;
-      ui_cli ui(engine);
-      ui.main_loop();
-   }
+      }
 
-   return 0;
+      else if(qa) // return information
+      {
+         std::cout << engine.all_questions() << std::endl;
+      }
+
+      else // play
+      {
+         std::cout << "Knowledge file: " << knowledge << std::endl;
+         ui_cli ui(engine);
+         ui.main_loop();
+      }
+
+      return 0;
+   }
+   catch (const error_with_option_name& e) 
+   {  
+      cout << e.what() << "\n";
+      cli.print(cout, 20);
+   }
 }
 

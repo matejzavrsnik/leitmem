@@ -44,7 +44,7 @@ TEST_F(fixture_leitmem_logic, answer_recognition_keywords_order_does_not_matters
    leitmem engine(m_time_probe, m_flipcard_store);
    engine.get_question();
    
-   bool correct = engine.submit_answer("Harrison Ford and Rutger Hauer");
+   bool correct = engine.submit_answer("Rutger Hauer and Harrison Ford");
    
    ASSERT_TRUE(correct);
 }
@@ -119,4 +119,34 @@ TEST_F(fixture_leitmem_logic, answer_recognition_alternative_keywords_second_acc
    bool correct = engine.submit_answer("lead, silver, tin, iron");
 
    ASSERT_TRUE (correct);
+}
+
+TEST_F(fixture_leitmem_logic, answer_recognition_superstring_of_keyword_cant_be_correct_answer)
+{
+   add_flipcard(m_flipcards,
+      "Word for bearing provocation",
+      "...",
+      {"patient"});
+   
+   leitmem engine(m_time_probe, m_flipcard_store);
+   engine.get_question();
+
+   bool correct = engine.submit_answer("impatient");
+
+   ASSERT_FALSE (correct);
+}
+
+TEST_F(fixture_leitmem_logic, answer_recognition_substring_of_keyword_cant_be_correct_answer)
+{
+   add_flipcard(m_flipcards,
+      "Restless or short of temper especially under irritation",
+      "...",
+      {"impatient"});
+   
+   leitmem engine(m_time_probe, m_flipcard_store);
+   engine.get_question();
+
+   bool correct = engine.submit_answer("patient");
+
+   ASSERT_FALSE (correct);
 }

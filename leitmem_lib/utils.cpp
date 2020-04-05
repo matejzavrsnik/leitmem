@@ -2,7 +2,7 @@
 #include "constants.h"
 
 #include "string/case.h"
-#include "string/are_substrings.h"
+#include "string/are_subsentences.h"
 #include "string/split.h"
 #include "string/trim.h"
 #include "tools/wagner_fischer_distance.h"
@@ -49,8 +49,8 @@ evaluate_keywords(
             int (*p)(int) = isspace; // why is this necessary?
             return mzlib::trim(keyword, p);
          });
-      
-      if (mzlib::all_are_substrings_ci(
+         
+      if (mzlib::all_are_subsentences_ci(
          answer, 
          split_keywords.begin(), 
          split_keywords.end()))

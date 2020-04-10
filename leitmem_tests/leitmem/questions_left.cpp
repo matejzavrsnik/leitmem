@@ -42,7 +42,7 @@ TEST_F(fixture_leitmem_logic, questions_left_zero_after_answering_only_question)
    m_test_questions.add_question_1();
    leitmem engine(m_time_probe, m_flipcard_store);
    auto question = engine.get_question();
-   engine.submit_answer(m_test_questions.get_correct_keywords(question));
+   engine.submit_answer(m_test_questions.get_correct_keywords_joined(question));
    
    ASSERT_EQ(engine.questions_today(), 0);
 }
@@ -72,9 +72,9 @@ TEST_F(fixture_leitmem_logic, questions_left_decremented_after_correct_answer)
    m_test_questions.add_question_2();
    leitmem engine(m_time_probe, m_flipcard_store);
    std::string_view question = engine.get_question();
-   std::string_view answer = m_test_questions.get_correct_keywords(question);
+   const std::string& keywords = m_test_questions.get_correct_keywords_joined(question);
    
-   engine.submit_answer(answer);
+   engine.submit_answer(keywords);
    
    ASSERT_EQ(engine.questions_today(), 1);
 }

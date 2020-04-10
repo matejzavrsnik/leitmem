@@ -42,7 +42,8 @@ TEST_F(fixture_leitmem_logic, all_questions_still_one_after_answering_only_quest
    m_test_questions.add_question_1();
    leitmem engine(m_time_probe, m_flipcard_store);
    auto question = engine.get_question();
-   engine.submit_answer(m_test_questions.get_correct_keywords(question));
+   auto keywords = m_test_questions.get_correct_keywords_joined(question);
+   engine.submit_answer(keywords);
    
    ASSERT_EQ(engine.all_questions(), 1);
 }

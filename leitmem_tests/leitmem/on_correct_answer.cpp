@@ -14,8 +14,9 @@ TEST_F(fixture_leitmem_logic, on_correct_answer_adds_attribute_level)
    m_test_questions.add_question_1();
    leitmem engine(m_time_probe, m_flipcard_store);
    auto question = engine.get_question();
+   auto answer = m_test_questions.get_correct_keywords_joined(question);
    
-   engine.submit_answer(m_test_questions.get_correct_keywords(question));
+   engine.submit_answer(answer);
    engine.save_knowledge();
    
    auto flipcard = mzlib::ds::first(m_flipcards->nodes(), tag_flipcard);
@@ -28,8 +29,9 @@ TEST_F(fixture_leitmem_logic, on_correct_answer_adds_attribute_date)
    m_test_questions.add_question_1();
    leitmem engine(m_time_probe, m_flipcard_store);
    auto question = engine.get_question();
+   auto keywords = m_test_questions.get_correct_keywords_joined(question);
    
-   engine.submit_answer(m_test_questions.get_correct_keywords(question));
+   engine.submit_answer(keywords);
    engine.save_knowledge();
    
    auto flipcard = mzlib::ds::first(m_flipcards->nodes(), tag_flipcard);
@@ -44,8 +46,9 @@ TEST_F(fixture_leitmem_logic, on_correct_answer_updates_attribute_level)
    mzlib::ds::add_or_edit_attribute(flipcard, tag_level, "0");
    leitmem engine(m_time_probe, m_flipcard_store);
    auto question = engine.get_question();
+   auto keywords = m_test_questions.get_correct_keywords_joined(question);
    
-   engine.submit_answer(m_test_questions.get_correct_keywords(question));
+   engine.submit_answer(keywords);
    engine.save_knowledge();
    
    flipcard = mzlib::ds::first(m_flipcards->nodes(), tag_flipcard);
@@ -60,8 +63,9 @@ TEST_F(fixture_leitmem_logic, on_correct_answer_updates_attribute_date)
    mzlib::ds::add_or_edit_attribute(flipcard, tag_answered, value_incorrectly);
    leitmem engine(m_time_probe, m_flipcard_store);
    auto question = engine.get_question();
+   auto keywords = m_test_questions.get_correct_keywords_joined(question);
    
-   engine.submit_answer(m_test_questions.get_correct_keywords(question));
+   engine.submit_answer(keywords);
    engine.save_knowledge();
    
    flipcard = mzlib::ds::first(m_flipcards->nodes(), tag_flipcard);

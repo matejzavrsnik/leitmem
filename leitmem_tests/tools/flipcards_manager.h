@@ -2,7 +2,7 @@
 #define QUESTIONS_MANAGER_H
 
 #include <vector>
-
+#include "string/join.h"
 
 inline void prepare_flipcards(
    mzlib::ds::pnode flipcards, 
@@ -11,6 +11,13 @@ inline void prepare_flipcards(
    flipcards->set_name("flipcards");
    flipcards->add_attribute("title", title);
 }
+
+struct flipcard_data
+{
+   std::string_view question;
+   std::string_view answer;
+   std::vector<std::string_view> keywords;
+};
 
 inline void add_flipcard(
    mzlib::ds::pnode flipcards,
@@ -27,36 +34,33 @@ inline void add_flipcard(
    }
 }
 
-struct flipcard_data
+inline const std::vector<flipcard_data>& test_flipcards()
 {
-   std::string question;
-   std::string answer;
-   std::string keywords;
-   std::string user_answer;
-};
+   static std::vector<flipcard_data> flipcards
+   {
+      {
+         .question = "What are synthetic humans called?",
+         .answer   = "Synthetic humans are called 'replicants'.",
+         .keywords = { "replicants" }
+      },
+      {
+         .question = "What book was Blade Runner based on?",
+         .answer   = "Blade Runner was based on a book Do Androids Dream of Electric Sheep by Philip K. Dick.",
+         .keywords = { "Do Androids Dream of Electric Sheep" }
+      }
+   };
+   return flipcards;
+}
+
 
 class flipcards_manager
 {
-
-   std::string_view m_question_1 = "What are synthetic humans called?";
-   std::string_view m_answer_1 = "Synthetic humans are called 'replicants'.";
-   std::string_view m_keyword_1 = "replicants";
    
-   std::string_view m_question_2 = "What book was Blade Runner based on?";
-   std::string_view m_answer_2 = "Synthetic humans are called 'replicants'.";
-   std::string_view m_keyword_2 = "Do Androids Dream of Electric Sheep";
+private:
    
    mzlib::ds::pnode m_flipcards;
    
-   std::vector<flipcard_data> m_flipcard_data;
-   
 public:
-   
-   void add_questions()
-   {
-      flipcard_data f;
-      m_flipcard_data.push_back(f);
-   }
    
    void work_on(mzlib::ds::pnode flipcards)
    {
@@ -66,39 +70,40 @@ public:
    void add_question_1()
    {
       add_flipcard(m_flipcards,
-         m_question_1,
-         m_answer_1,
-         {m_keyword_1}); 
+         test_flipcards()[0].question,
+         test_flipcards()[0].answer,
+         test_flipcards()[0].keywords); 
    }
 
    void add_question_2()
    {
       add_flipcard(m_flipcards,
-         m_question_2,
-         "Blade Runner was based on a book Do Androids Dream of Electric Sheep by Philip K. Dick.",
-         {"Do Androids Dream of Electric Sheep"}); 
+         test_flipcards()[1].question,
+         test_flipcards()[1].answer,
+         test_flipcards()[1].keywords); 
    }
    
    std::string_view get_question_1()
    {
-      return m_question_1;
+      return test_flipcards()[0].question;
    }
    
    std::string_view get_answer(std::string_view question)
    {
-      if(question == m_question_1)
-         return m_answer_1;
-      if(question == m_question_2)
-         return m_answer_2;
-      return "";
+      if(question == test_flipcards()[0].question)
+         return test_flipcards()[0].answer;
+      if(question == test_flipcards()[1].question)
+         return test_flipcards()[1].answer;
+      return {""};
    }
 
-   std::string_view get_correct_keywords(std::string_view question)
+   std::string get_correct_keywords_joined(std::string_view question)
    {
-      if(question == m_question_1)
-         return m_keyword_1;
-      if(question == m_question_2)
-         return m_keyword_2;
+     
+      if(question == test_flipcards()[0].question)
+         return mzlib::join(test_flipcards()[0].keywords, " ");
+      if(question == test_flipcards()[1].question)
+         return mzlib::join(test_flipcards()[1].keywords, " ");
       return "";
    }
    

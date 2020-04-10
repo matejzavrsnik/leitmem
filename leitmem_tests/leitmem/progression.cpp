@@ -61,7 +61,9 @@ TEST_F(fixture_leitmem_logic, answering_question_correctly_will_not_ask_again_im
    m_test_questions.add_question_1();
    leitmem engine(m_time_probe, m_flipcard_store);
    std::string_view question1 = engine.get_question();   
-   engine.submit_answer(m_test_questions.get_correct_keywords(question1));
+   auto keywords1 = m_test_questions.get_correct_keywords_joined(question1);
+   
+   engine.submit_answer(keywords1);
    
    std::string_view question2 = engine.get_question();
    
@@ -73,7 +75,8 @@ TEST_F(fixture_leitmem_logic, on_first_correct_answer_asked_again_day_after)
    m_test_questions.add_question_1();   
    leitmem engine(m_time_probe, m_flipcard_store);
    std::string_view question1 = engine.get_question();
-   engine.submit_answer(m_test_questions.get_correct_keywords(question1));
+   auto keywords1 = m_test_questions.get_correct_keywords_joined(question1);
+   engine.submit_answer(keywords1);
    std::tm tomorrow = mzlib::tm_calc{m_today}.plus(1).days();
    ON_CALL(m_time_probe, get_today_local())
       .WillByDefault(Return(tomorrow));
@@ -94,7 +97,8 @@ TEST_F(fixture_leitmem_logic, on_correct_answers_progression_through_levels_work
    {
       // answer correctly
       std::string_view question1 = engine.get_question();
-      engine.submit_answer(m_test_questions.get_correct_keywords(question1));
+      auto keywords1 = m_test_questions.get_correct_keywords_joined(question1);
+      engine.submit_answer(keywords1);
       when_to_ask = mzlib::tm_calc{when_to_ask}
          .plus(after_days).days();
          
@@ -138,8 +142,9 @@ TEST_F(fixture_leitmem_logic, when_lots_of_questions_available_continue_when_all
    leitmem engine(m_time_probe, m_flipcard_store);
    engine.set_workset_size(1);   
    auto question = engine.get_question();
+   auto keywords = m_test_questions.get_correct_keywords_joined(question);
    
-   engine.submit_answer(m_test_questions.get_correct_keywords(question));
+   engine.submit_answer(keywords);
    auto next_question = engine.get_question();
    
    ASSERT_NE(question, next_question);

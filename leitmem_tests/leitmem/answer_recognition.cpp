@@ -14,9 +14,9 @@ TEST_F(fixture_leitmem_logic, answer_recognition_correct_keyword)
    m_test_questions.add_question_1();
    leitmem engine(m_time_probe, m_flipcard_store);
    auto question = engine.get_question();
+   auto answer = m_test_questions.get_correct_keywords_joined(question);
    
-   bool correct = engine.submit_answer(
-      m_test_questions.get_correct_keywords(question));
+   bool correct = engine.submit_answer(answer);
    
    ASSERT_TRUE(correct);
 }
@@ -26,9 +26,9 @@ TEST_F(fixture_leitmem_logic, answer_recognition_correct_keyword_ignores_case)
    m_test_questions.add_question_1();
    leitmem engine(m_time_probe, m_flipcard_store);
    auto question = engine.get_question();
-   std::string uppercase_answer = 
-      mzlib::to_uppercase_copy<std::string>(
-         m_test_questions.get_correct_keywords(question));
+   auto keywords = m_test_questions.get_correct_keywords_joined(question);
+   
+   std::string uppercase_answer = mzlib::to_uppercase_copy<std::string>(keywords);
    
    bool correct = engine.submit_answer(uppercase_answer);
    

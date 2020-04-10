@@ -8,6 +8,7 @@
 #include "tools/wagner_fischer_distance.h"
 #include "tools/time_probe.h"
 #include "tools/time_operations.h"
+#include "tools/converters.h"
 #include "iterators/is_last.h"
 
 #include <cctype>
@@ -66,8 +67,8 @@ evaluate_answer(
 {
    string_view mixed_case_flipcard_answer = ds::first(flipcard->nodes(), tag_answer)->value();
     
-   string user_answer = mzlib::to_lowercase_copy<string>(answer);
-   string flipcard_answer = mzlib::to_lowercase_copy<string>(mixed_case_flipcard_answer);
+   string user_answer = mzlib::to_lowercase_copy(mzlib::convert<string>(answer));
+   string flipcard_answer = mzlib::to_lowercase_copy(mzlib::convert<string>(mixed_case_flipcard_answer));
       
    if (user_answer.size() == 0)
       return false;

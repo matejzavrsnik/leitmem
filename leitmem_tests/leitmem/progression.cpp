@@ -11,7 +11,7 @@ using namespace ::testing;
 
 TEST_F(fixture_leitmem_logic, answering_question_incorrectly_will_ask_again) 
 {
-   m_test_questions.add_question(test_flipcards(0));
+   add_question(test_flipcards(0), m_flipcards);
    leitmem engine(m_time_probe, m_flipcard_store);
    auto question1 = engine.get_question();
    
@@ -23,8 +23,8 @@ TEST_F(fixture_leitmem_logic, answering_question_incorrectly_will_ask_again)
 
 TEST_F(fixture_leitmem_logic, answering_question_incorrectly_will_ask_others_first) 
 {
-   m_test_questions.add_question(test_flipcards(0));
-   m_test_questions.add_question(test_flipcards(1));
+   add_question(test_flipcards(0), m_flipcards);
+   add_question(test_flipcards(1), m_flipcards);
    leitmem engine(m_time_probe, m_flipcard_store);
    std::string_view question1 = engine.get_question();
    engine.submit_answer("wrong answer");
@@ -36,8 +36,8 @@ TEST_F(fixture_leitmem_logic, answering_question_incorrectly_will_ask_others_fir
 
 TEST_F(fixture_leitmem_logic, answering_all_questions_incorrectly_will_start_again) 
 {
-   m_test_questions.add_question(test_flipcards(0));
-   m_test_questions.add_question(test_flipcards(1));
+   add_question(test_flipcards(0), m_flipcards);
+   add_question(test_flipcards(1), m_flipcards);
    leitmem engine(m_time_probe, m_flipcard_store);
    std::string_view question1 = engine.get_question();
    engine.submit_answer("wrong answer");
@@ -58,7 +58,7 @@ TEST_F(fixture_leitmem_logic, answering_all_questions_incorrectly_will_start_aga
 
 TEST_F(fixture_leitmem_logic, answering_question_correctly_will_not_ask_again_immediately) 
 {
-   m_test_questions.add_question(test_flipcards(0));
+   add_question(test_flipcards(0), m_flipcards);
    leitmem engine(m_time_probe, m_flipcard_store);
    engine.get_question();
    
@@ -71,7 +71,7 @@ TEST_F(fixture_leitmem_logic, answering_question_correctly_will_not_ask_again_im
 
 TEST_F(fixture_leitmem_logic, on_first_correct_answer_asked_again_day_after)
 {
-   m_test_questions.add_question(test_flipcards(0)); 
+   add_question(test_flipcards(0), m_flipcards);
    leitmem engine(m_time_probe, m_flipcard_store);
    std::string_view question1 = engine.get_question();
    engine.submit_answer(test_flipcards(0).keywords);
@@ -86,7 +86,7 @@ TEST_F(fixture_leitmem_logic, on_first_correct_answer_asked_again_day_after)
 
 TEST_F(fixture_leitmem_logic, on_correct_answers_progression_through_levels_works)
 {
-   m_test_questions.add_question(test_flipcards(0));
+   add_question(test_flipcards(0), m_flipcards);
    leitmem engine(m_time_probe, m_flipcard_store);
      
    std::tm when_to_ask = m_today;
@@ -118,8 +118,8 @@ TEST_F(fixture_leitmem_logic, on_correct_answers_progression_through_levels_work
 
 TEST_F(fixture_leitmem_logic, when_lots_of_questions_available_prioritise_already_seen) 
 {
-   m_test_questions.add_question(test_flipcards(0));
-   m_test_questions.add_question(test_flipcards(1));
+   add_question(test_flipcards(0), m_flipcards);
+   add_question(test_flipcards(1), m_flipcards);
    leitmem engine(m_time_probe, m_flipcard_store);
    engine.set_workset_size(1);
    auto question = engine.get_question();
@@ -132,8 +132,8 @@ TEST_F(fixture_leitmem_logic, when_lots_of_questions_available_prioritise_alread
 
 TEST_F(fixture_leitmem_logic, when_lots_of_questions_available_continue_when_all_answered) 
 {
-   m_test_questions.add_question(test_flipcards(0));
-   m_test_questions.add_question(test_flipcards(1));
+   add_question(test_flipcards(0), m_flipcards);
+   add_question(test_flipcards(1), m_flipcards);
    leitmem engine(m_time_probe, m_flipcard_store);
    engine.set_workset_size(1);   
    std::string_view question = engine.get_question();

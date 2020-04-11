@@ -11,7 +11,7 @@ using namespace ::testing;
 
 TEST_F(fixture_leitmem_logic, on_incorrect_answer_adds_attribute_level) 
 {
-   m_test_questions.add_question(test_flipcards(0));
+   add_question(test_flipcards(0), m_flipcards);
    leitmem engine(m_time_probe, m_flipcard_store);
    engine.get_question();
    
@@ -25,7 +25,7 @@ TEST_F(fixture_leitmem_logic, on_incorrect_answer_adds_attribute_level)
 
 TEST_F(fixture_leitmem_logic, on_incorrect_answer_adds_attribute_date) 
 {
-   m_test_questions.add_question(test_flipcards(0));
+   add_question(test_flipcards(0), m_flipcards);
    leitmem engine(m_time_probe, m_flipcard_store);
    engine.get_question();
    
@@ -39,7 +39,7 @@ TEST_F(fixture_leitmem_logic, on_incorrect_answer_adds_attribute_date)
 
 TEST_F(fixture_leitmem_logic, on_incorrect_answer_updates_attribute_level) 
 {
-   m_test_questions.add_question(test_flipcards(0));
+   add_question(test_flipcards(0), m_flipcards);
    auto flipcard = mzlib::ds::first(m_flipcards->nodes(), tag_flipcard);
    mzlib::ds::add_or_edit_attribute(flipcard, tag_level, "1");
    leitmem engine(m_time_probe, m_flipcard_store);
@@ -55,7 +55,7 @@ TEST_F(fixture_leitmem_logic, on_incorrect_answer_updates_attribute_level)
 
 TEST_F(fixture_leitmem_logic, on_incorrect_answer_level_always_set_to_0) 
 {
-   m_test_questions.add_question(test_flipcards(0));
+   add_question(test_flipcards(0), m_flipcards);
    
    for(auto before_level : {"0","1","2","4","8","16","32"})
    {
@@ -75,7 +75,7 @@ TEST_F(fixture_leitmem_logic, on_incorrect_answer_level_always_set_to_0)
 
 TEST_F(fixture_leitmem_logic, on_incorrect_answer_updates_attribute_date) 
 {
-   m_test_questions.add_question(test_flipcards(0));
+   add_question(test_flipcards(0), m_flipcards);
    auto flipcard = mzlib::ds::first(m_flipcards->nodes(), tag_flipcard);
    mzlib::ds::add_or_edit_attribute(flipcard, tag_answered, "some value");
    leitmem engine(m_time_probe, m_flipcard_store);

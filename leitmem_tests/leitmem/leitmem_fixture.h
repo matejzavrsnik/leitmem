@@ -34,10 +34,7 @@ protected:
 
    fixture_leitmem_logic()
    {
-      prepare_flipcards(m_flipcards, 
-         "Blade Runner");
-            
-      m_test_questions.work_on(m_flipcards);
+      initialise_flipcards(m_flipcards, "Blade Runner");
       
       ON_CALL(m_flipcard_store, load())
          .WillByDefault(::testing::Return(m_flipcards));
@@ -55,8 +52,6 @@ protected:
    ::testing::NiceMock<mock_time_probe> m_time_probe; 
    
    std::tm m_today;
-   
-   flipcards_manager m_test_questions;
 };
 
 #endif /* LEITMEM_FIXTURE_H */

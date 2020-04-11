@@ -12,7 +12,7 @@ using namespace ::testing;
 
 TEST_F(fixture_leitmem_logic, answer_recognition_correct_keyword) 
 {
-   m_test_questions.add_question(test_flipcards(0));
+   add_question(test_flipcards(0), m_flipcards);
    leitmem engine(m_time_probe, m_flipcard_store);
    engine.get_question();
    
@@ -23,7 +23,7 @@ TEST_F(fixture_leitmem_logic, answer_recognition_correct_keyword)
 
 TEST_F(fixture_leitmem_logic, answer_recognition_correct_keyword_ignores_case) 
 {
-   m_test_questions.add_question(test_flipcards(0));
+   add_question(test_flipcards(0), m_flipcards);
    leitmem engine(m_time_probe, m_flipcard_store);
    engine.get_question();
    
@@ -39,7 +39,7 @@ TEST_F(fixture_leitmem_logic, answer_recognition_correct_keyword_ignores_case)
 
 TEST_F(fixture_leitmem_logic, answer_recognition_keywords_order_does_not_matters) 
 {
-      add_flipcard_node(m_flipcards,
+      add_flipcard(m_flipcards,
          "Blade Runner cast?",
          "Main actors were Harrison Ford and Rutger Hauer.",
          {"Harrison Ford, Rutger Hauer"}); 
@@ -53,7 +53,7 @@ TEST_F(fixture_leitmem_logic, answer_recognition_keywords_order_does_not_matters
 
 TEST_F(fixture_leitmem_logic, answer_recognition_keywords_trimmed_of_spaces) 
 {
-   add_flipcard_node(m_flipcards,
+   add_flipcard(m_flipcards,
       "Blade Runner cast?",
       "Main actors were Harrison Ford and Rutger Hauer.",
       // keywords: space after first, two spaces before second
@@ -70,7 +70,7 @@ TEST_F(fixture_leitmem_logic, answer_recognition_keywords_trimmed_of_spaces)
 
 TEST_F(fixture_leitmem_logic, answer_recognition_word_order_of_keyword_itself_matters) 
 {
-      add_flipcard_node(m_flipcards,
+      add_flipcard(m_flipcards,
          "What book was Blade Runner based on?",
          "Blade Runner was based on a book Do Androids Dream of Electric Sheep by Philip K. Dick.",
          {"Do Androids Dream of Electric Sheep"}); 
@@ -84,7 +84,7 @@ TEST_F(fixture_leitmem_logic, answer_recognition_word_order_of_keyword_itself_ma
 
 TEST_F(fixture_leitmem_logic, answer_recognition_incorrect_keyword) 
 {
-   m_test_questions.add_question(test_flipcards(0));
+   add_question(test_flipcards(0), m_flipcards);
    leitmem engine(m_time_probe, m_flipcard_store);
    engine.get_question();
    
@@ -95,7 +95,7 @@ TEST_F(fixture_leitmem_logic, answer_recognition_incorrect_keyword)
 
 TEST_F(fixture_leitmem_logic, answer_recognition_alternative_keywords_first_accepted)
 {
-   add_flipcard_node(m_flipcards,
+   add_flipcard(m_flipcards,
       "What did Britain export to the rest of the Roman Empire?",
       "Britain was rich in reserves of metals and exported lead, silver, tin and iron.",
       {"metals", "lead, silver, tin, iron"});
@@ -110,7 +110,7 @@ TEST_F(fixture_leitmem_logic, answer_recognition_alternative_keywords_first_acce
 
 TEST_F(fixture_leitmem_logic, answer_recognition_alternative_keywords_second_accepted)
 {
-   add_flipcard_node(m_flipcards,
+   add_flipcard(m_flipcards,
       "What did Britain export to the rest of the Roman Empire?",
       "Britain was rich in reserves of metals and exported lead, silver, tin and iron.",
       {"metals", "lead, silver, tin, iron"});
@@ -125,7 +125,7 @@ TEST_F(fixture_leitmem_logic, answer_recognition_alternative_keywords_second_acc
 
 TEST_F(fixture_leitmem_logic, answer_recognition_superstring_of_keyword_cant_be_correct_answer)
 {
-   add_flipcard_node(m_flipcards,
+   add_flipcard(m_flipcards,
       "Word for bearing provocation",
       "...",
       {"patient"});
@@ -140,7 +140,7 @@ TEST_F(fixture_leitmem_logic, answer_recognition_superstring_of_keyword_cant_be_
 
 TEST_F(fixture_leitmem_logic, answer_recognition_substring_of_keyword_cant_be_correct_answer)
 {
-   add_flipcard_node(m_flipcards,
+   add_flipcard(m_flipcards,
       "Restless or short of temper especially under irritation",
       "...",
       {"impatient"});

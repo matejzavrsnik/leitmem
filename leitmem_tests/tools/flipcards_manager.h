@@ -4,14 +4,12 @@
 #include <vector>
 #include "string/split.h"
 
-inline void prepare_flipcards(
-   mzlib::ds::pnode flipcards, 
-   std::string_view title)
-{
-   flipcards->set_name("flipcards");
-   flipcards->add_attribute("title", title);
-}
+// two things are called "flipcard" in these tests so from now on I am trying to
+// use the name -data for the content and -node for the flipcard in the deck that
+// the engine is using. -data is more convenient for testing, -node is necessary
+// for the engine to work.
 
+// Groups the flipcard data into one abstraction.
 struct flipcard_data
 {
    std::string_view question;
@@ -19,7 +17,18 @@ struct flipcard_data
    std::string_view keywords;
 };
 
-inline void add_flipcard_node(
+// Initialises flipcards nodes. This deck of flipcards will be later returned to 
+// the engine through mock as if they were read from the disk.
+inline void initialise_flipcards(
+   mzlib::ds::pnode flipcards, 
+   std::string_view title)
+{
+   flipcards->set_name("flipcards");
+   flipcards->add_attribute("title", title);
+}
+
+// Adds flipcard data to the deck of flipcard nodes
+inline void add_flipcard(
    mzlib::ds::pnode flipcards,
    std::string_view question,
    std::string_view answer,
@@ -32,6 +41,14 @@ inline void add_flipcard_node(
    {
       flipcard->add_node("keywords", keyword); 
    }
+}
+
+inline void add_question(flipcard_data flipcard, mzlib::ds::pnode flipcards)
+{
+   add_flipcard(flipcards,
+      flipcard.question,
+      flipcard.answer,
+      mzlib::split(flipcard.keywords, ",")); 
 }
 
 inline flipcard_data test_flipcards(int i)
@@ -60,50 +77,6 @@ inline flipcard_data test_flipcards(std::string_view question)
       return test_flipcards(1);
    throw;
 }
-
-
-class flipcards_manager
-{
-   
-private:
-   
-   mzlib::ds::pnode m_flipcards;
-   
-public:
-   
-   void work_on(mzlib::ds::pnode flipcards)
-   {
-      m_flipcards = flipcards;
-   }
-   
-   void add_question(flipcard_data flipcard)
-   {
-      add_flipcard_node(m_flipcards,
-         flipcard.question,
-         flipcard.answer,
-         mzlib::split(flipcard.keywords, ",")); 
-   }
-   
-//   std::string_view get_answer(std::string_view question)
-//   {
-//      if(question == test_flipcards(0).question)
-//         return test_flipcards(0).answer;
-//      if(question == test_flipcards(1).question)
-//         return test_flipcards(1).answer;
-//      return {""};
-//   }
-
-//   std::string_view get_correct_keywords(std::string_view question)
-//   {
-//     
-//      if(question == test_flipcards(0).question)
-//         return test_flipcards(0).keywords;
-//      if(question == test_flipcards(1).question)
-//         return test_flipcards(1).keywords;
-//      return "";
-//   }
-   
-};
 
 #endif /* QUESTIONS_MANAGER_H */
 

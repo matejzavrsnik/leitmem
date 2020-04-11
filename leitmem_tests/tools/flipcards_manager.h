@@ -2,7 +2,7 @@
 #define QUESTIONS_MANAGER_H
 
 #include <vector>
-#include "string/join.h"
+#include "string/split.h"
 
 inline void prepare_flipcards(
    mzlib::ds::pnode flipcards, 
@@ -16,10 +16,10 @@ struct flipcard_data
 {
    std::string_view question;
    std::string_view answer;
-   std::vector<std::string_view> keywords;
+   std::string_view keywords;
 };
 
-inline void add_flipcard(
+inline void add_flipcard_node(
    mzlib::ds::pnode flipcards,
    std::string_view question,
    std::string_view answer,
@@ -34,22 +34,31 @@ inline void add_flipcard(
    }
 }
 
-inline const std::vector<flipcard_data>& test_flipcards()
+inline flipcard_data test_flipcards(int i)
 {
    static std::vector<flipcard_data> flipcards
    {
       {
          .question = "What are synthetic humans called?",
          .answer   = "Synthetic humans are called 'replicants'.",
-         .keywords = { "replicants" }
+         .keywords = "replicants"
       },
       {
          .question = "What book was Blade Runner based on?",
          .answer   = "Blade Runner was based on a book Do Androids Dream of Electric Sheep by Philip K. Dick.",
-         .keywords = { "Do Androids Dream of Electric Sheep" }
+         .keywords = "Do Androids Dream of Electric Sheep"
       }
    };
-   return flipcards;
+   return flipcards[i];
+}
+
+inline flipcard_data test_flipcards(std::string_view question)
+{
+   if(question == test_flipcards(0).question)
+      return test_flipcards(0);
+   if(question == test_flipcards(1).question)
+      return test_flipcards(1);
+   throw;
 }
 
 
@@ -67,45 +76,32 @@ public:
       m_flipcards = flipcards;
    }
    
-   void add_question_1()
+   void add_question(flipcard_data flipcard)
    {
-      add_flipcard(m_flipcards,
-         test_flipcards()[0].question,
-         test_flipcards()[0].answer,
-         test_flipcards()[0].keywords); 
-   }
-
-   void add_question_2()
-   {
-      add_flipcard(m_flipcards,
-         test_flipcards()[1].question,
-         test_flipcards()[1].answer,
-         test_flipcards()[1].keywords); 
+      add_flipcard_node(m_flipcards,
+         flipcard.question,
+         flipcard.answer,
+         mzlib::split(flipcard.keywords, ",")); 
    }
    
-   std::string_view get_question_1()
-   {
-      return test_flipcards()[0].question;
-   }
-   
-   std::string_view get_answer(std::string_view question)
-   {
-      if(question == test_flipcards()[0].question)
-         return test_flipcards()[0].answer;
-      if(question == test_flipcards()[1].question)
-         return test_flipcards()[1].answer;
-      return {""};
-   }
+//   std::string_view get_answer(std::string_view question)
+//   {
+//      if(question == test_flipcards(0).question)
+//         return test_flipcards(0).answer;
+//      if(question == test_flipcards(1).question)
+//         return test_flipcards(1).answer;
+//      return {""};
+//   }
 
-   std::string get_correct_keywords_joined(std::string_view question)
-   {
-     
-      if(question == test_flipcards()[0].question)
-         return mzlib::join(test_flipcards()[0].keywords, " ");
-      if(question == test_flipcards()[1].question)
-         return mzlib::join(test_flipcards()[1].keywords, " ");
-      return "";
-   }
+//   std::string_view get_correct_keywords(std::string_view question)
+//   {
+//     
+//      if(question == test_flipcards(0).question)
+//         return test_flipcards(0).keywords;
+//      if(question == test_flipcards(1).question)
+//         return test_flipcards(1).keywords;
+//      return "";
+//   }
    
 };
 

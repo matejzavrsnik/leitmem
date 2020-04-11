@@ -11,7 +11,7 @@ using namespace ::testing;
 
 TEST_F(fixture_leitmem_logic, answering_question_incorrectly_will_ask_again) 
 {
-   m_test_questions.add_question_1();
+   m_test_questions.add_question(test_flipcards(0));
    leitmem engine(m_time_probe, m_flipcard_store);
    auto question1 = engine.get_question();
    
@@ -23,8 +23,8 @@ TEST_F(fixture_leitmem_logic, answering_question_incorrectly_will_ask_again)
 
 TEST_F(fixture_leitmem_logic, answering_question_incorrectly_will_ask_others_first) 
 {
-   m_test_questions.add_question_1();
-   m_test_questions.add_question_2();
+   m_test_questions.add_question(test_flipcards(0));
+   m_test_questions.add_question(test_flipcards(1));
    leitmem engine(m_time_probe, m_flipcard_store);
    std::string_view question1 = engine.get_question();
    engine.submit_answer("wrong answer");
@@ -36,8 +36,8 @@ TEST_F(fixture_leitmem_logic, answering_question_incorrectly_will_ask_others_fir
 
 TEST_F(fixture_leitmem_logic, answering_all_questions_incorrectly_will_start_again) 
 {
-   m_test_questions.add_question_1();
-   m_test_questions.add_question_2();
+   m_test_questions.add_question(test_flipcards(0));
+   m_test_questions.add_question(test_flipcards(1));
    leitmem engine(m_time_probe, m_flipcard_store);
    std::string_view question1 = engine.get_question();
    engine.submit_answer("wrong answer");
@@ -58,12 +58,11 @@ TEST_F(fixture_leitmem_logic, answering_all_questions_incorrectly_will_start_aga
 
 TEST_F(fixture_leitmem_logic, answering_question_correctly_will_not_ask_again_immediately) 
 {
-   m_test_questions.add_question_1();
+   m_test_questions.add_question(test_flipcards(0));
    leitmem engine(m_time_probe, m_flipcard_store);
-   std::string_view question1 = engine.get_question();   
-   auto keywords1 = m_test_questions.get_correct_keywords_joined(question1);
+   engine.get_question();
    
-   engine.submit_answer(keywords1);
+   engine.submit_answer(test_flipcards(0).keywords);
    
    std::string_view question2 = engine.get_question();
    
@@ -72,11 +71,10 @@ TEST_F(fixture_leitmem_logic, answering_question_correctly_will_not_ask_again_im
 
 TEST_F(fixture_leitmem_logic, on_first_correct_answer_asked_again_day_after)
 {
-   m_test_questions.add_question_1();   
+   m_test_questions.add_question(test_flipcards(0)); 
    leitmem engine(m_time_probe, m_flipcard_store);
    std::string_view question1 = engine.get_question();
-   auto keywords1 = m_test_questions.get_correct_keywords_joined(question1);
-   engine.submit_answer(keywords1);
+   engine.submit_answer(test_flipcards(0).keywords);
    std::tm tomorrow = mzlib::tm_calc{m_today}.plus(1).days();
    ON_CALL(m_time_probe, get_today_local())
       .WillByDefault(Return(tomorrow));
@@ -88,7 +86,7 @@ TEST_F(fixture_leitmem_logic, on_first_correct_answer_asked_again_day_after)
 
 TEST_F(fixture_leitmem_logic, on_correct_answers_progression_through_levels_works)
 {
-   m_test_questions.add_question_1();
+   m_test_questions.add_question(test_flipcards(0));
    leitmem engine(m_time_probe, m_flipcard_store);
      
    std::tm when_to_ask = m_today;
@@ -96,9 +94,8 @@ TEST_F(fixture_leitmem_logic, on_correct_answers_progression_through_levels_work
    for(auto after_days : {1,2,4,8,16,32,32,32})
    {
       // answer correctly
-      std::string_view question1 = engine.get_question();
-      auto keywords1 = m_test_questions.get_correct_keywords_joined(question1);
-      engine.submit_answer(keywords1);
+      engine.get_question();
+      engine.submit_answer(test_flipcards(0).keywords);
       when_to_ask = mzlib::tm_calc{when_to_ask}
          .plus(after_days).days();
          
@@ -107,15 +104,13 @@ TEST_F(fixture_leitmem_logic, on_correct_answers_progression_through_levels_work
          .minus(1).days();
       ON_CALL(m_time_probe, get_today_local())
          .WillByDefault(Return(a_day_to_early));
-      std::string_view question2 = engine.get_question();
-      ASSERT_NE(question2, question1)
+      ASSERT_EQ("No more questions.", engine.get_question())
           << "failed day " << after_days;
       
       // on the exact day - get the question again
       ON_CALL(m_time_probe, get_today_local())
          .WillByDefault(Return(when_to_ask));
-      std::string_view question3 = engine.get_question();
-      ASSERT_EQ(question3, question1)
+      ASSERT_EQ(test_flipcards(0).question, engine.get_question())
           << "failed day " << after_days;
    }
    
@@ -123,8 +118,8 @@ TEST_F(fixture_leitmem_logic, on_correct_answers_progression_through_levels_work
 
 TEST_F(fixture_leitmem_logic, when_lots_of_questions_available_prioritise_already_seen) 
 {
-   m_test_questions.add_question_1();
-   m_test_questions.add_question_2();
+   m_test_questions.add_question(test_flipcards(0));
+   m_test_questions.add_question(test_flipcards(1));
    leitmem engine(m_time_probe, m_flipcard_store);
    engine.set_workset_size(1);
    auto question = engine.get_question();
@@ -137,12 +132,12 @@ TEST_F(fixture_leitmem_logic, when_lots_of_questions_available_prioritise_alread
 
 TEST_F(fixture_leitmem_logic, when_lots_of_questions_available_continue_when_all_answered) 
 {
-   m_test_questions.add_question_1();
-   m_test_questions.add_question_2();
+   m_test_questions.add_question(test_flipcards(0));
+   m_test_questions.add_question(test_flipcards(1));
    leitmem engine(m_time_probe, m_flipcard_store);
    engine.set_workset_size(1);   
-   auto question = engine.get_question();
-   auto keywords = m_test_questions.get_correct_keywords_joined(question);
+   std::string_view question = engine.get_question();
+   std::string_view keywords = test_flipcards(question).keywords;
    
    engine.submit_answer(keywords);
    auto next_question = engine.get_question();

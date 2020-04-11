@@ -35,7 +35,7 @@ TEST_F(fixture_leitmem_logic, zero_questions_yields_no_more_questions)
 
 TEST_F(fixture_leitmem_logic, can_get_question) 
 {
-   add_question(test_flipcards(0), m_flipcards);
+   add_flipcard(m_flipcards, test_flipcards(0));
    leitmem engine(m_time_probe, m_flipcard_store);
    
    std::string_view question = engine.get_question();
@@ -45,7 +45,7 @@ TEST_F(fixture_leitmem_logic, can_get_question)
 
 TEST_F(fixture_leitmem_logic, can_get_answer) 
 {
-   add_question(test_flipcards(0), m_flipcards);
+   add_flipcard(m_flipcards, test_flipcards(0));
    leitmem engine(m_time_probe, m_flipcard_store);
    
    engine.get_question();
@@ -56,7 +56,7 @@ TEST_F(fixture_leitmem_logic, can_get_answer)
 
 TEST_F(fixture_leitmem_logic, get_answer_before_asking_question_doesnt_segfault) 
 {
-   add_question(test_flipcards(0), m_flipcards);
+   add_flipcard(m_flipcards, test_flipcards(0));
    leitmem engine(m_time_probe, m_flipcard_store);
    
    engine.get_answer();
@@ -66,7 +66,7 @@ TEST_F(fixture_leitmem_logic, get_answer_before_asking_question_doesnt_segfault)
 
 TEST_F(fixture_leitmem_logic, after_correct_answer_can_still_get_answer) 
 {
-   add_question(test_flipcards(0), m_flipcards);
+   add_flipcard(m_flipcards, test_flipcards(0));
    leitmem engine(m_time_probe, m_flipcard_store);
    engine.get_question();
    
@@ -79,7 +79,7 @@ TEST_F(fixture_leitmem_logic, after_correct_answer_can_still_get_answer)
 
 TEST_F(fixture_leitmem_logic, after_incorrect_answer_can_still_get_answer) 
 {
-   add_question(test_flipcards(0), m_flipcards);
+   add_flipcard(m_flipcards, test_flipcards(0));
    leitmem engine(m_time_probe, m_flipcard_store);
    engine.get_question();
    engine.submit_answer("wrong answer");

@@ -12,7 +12,7 @@ using namespace ::testing;
 
 TEST_F(fixture_leitmem_logic, answer_recognition_correct_keyword) 
 {
-   add_question(test_flipcards(0), m_flipcards);
+   add_flipcard(m_flipcards, test_flipcards(0));
    leitmem engine(m_time_probe, m_flipcard_store);
    engine.get_question();
    
@@ -23,7 +23,7 @@ TEST_F(fixture_leitmem_logic, answer_recognition_correct_keyword)
 
 TEST_F(fixture_leitmem_logic, answer_recognition_correct_keyword_ignores_case) 
 {
-   add_question(test_flipcards(0), m_flipcards);
+   add_flipcard(m_flipcards, test_flipcards(0));
    leitmem engine(m_time_probe, m_flipcard_store);
    engine.get_question();
    
@@ -84,7 +84,7 @@ TEST_F(fixture_leitmem_logic, answer_recognition_word_order_of_keyword_itself_ma
 
 TEST_F(fixture_leitmem_logic, answer_recognition_incorrect_keyword) 
 {
-   add_question(test_flipcards(0), m_flipcards);
+   add_flipcard(m_flipcards, test_flipcards(0));
    leitmem engine(m_time_probe, m_flipcard_store);
    engine.get_question();
    
